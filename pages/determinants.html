@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Determinantes | LinearAI</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+  <!-- SIDEBAR (igual que dashboard) -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo-area">
+        <div class="logo-box">∑</div>
+        <div>
+          <h1>LinearAI</h1>
+          <p>Workspace</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="../index.html" class="nav-item">⌂ Dashboard</a>
+        <a href="#" class="nav-item active-nav">Δ Determinantes</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content" x-data="determinantApp()">
+
+    <!-- HEADER -->
+    <div class="topbar">
+      <div>
+        <h2>Determinantes</h2>
+        <p>Cálculo paso a paso</p>
+      </div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="panel">
+
+      <div class="controls">
+
+        <select x-model="size">
+          <option value="2">2x2</option>
+          <option value="3">3x3</option>
+          <option value="4">4x4</option>
+        </select>
+
+        <select x-model="method">
+          <option value="auto">Automático</option>
+          <option value="sarrus">Sarrus (3x3)</option>
+          <option value="cofactor">Cofactores</option>
+        </select>
+
+        <button @click="generateMatrix()">Generar</button>
+
+        <button @click="calculate()">Calcular</button>
+
+      </div>
+
+      <!-- MATRIZ -->
+      <div class="matrix-grid">
+
+        <template x-for="(row, i) in matrix">
+            <div class="matrix-row">
+                <template x-for="(cell, j) in row">
+                <input 
+                    type="number" 
+                    x-model="matrix[i][j]"
+                    :class="getHighlightClass(i,j)"
+                >
+                </template>
+            </div>
+        </template>
+
+      </div>
+
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="result-panel">
+
+  <div class="step-header">
+    <h3>Procedimiento</h3>
+
+    <div class="step-controls">
+      <button @click="prevStep()">◀</button>
+      <button @click="nextStep()">▶</button>
+    </div>
+  </div>
+
+  <div class="step-viewer">
+
+    <template x-for="(step, index) in steps">
+      <div 
+        class="step-item"
+        :class="{ 'active-step': index === currentStep }"
+        x-show="index === currentStep"
+      >
+        <span class="step-index" x-text="'Paso ' + (index+1)"></span>
+        <p x-text="step"></p>
+      </div>
+    </template>
+
+  </div>
+
+  <div class="result-box">
+    <h2 x-text="'Resultado: ' + result"></h2>
+  </div>
+
+</div>
+
+  </main>
+
+</div>
+
+<script src="../assets/js/determinants/determinant-core.js"></script>
+
+</body>
+</html>

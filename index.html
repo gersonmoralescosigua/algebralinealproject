@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Linear Algebra Workspace</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/css/styles.css">
+
+</head>
+
+<body>
+
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div>
+
+        <!-- LOGO -->
+        <div class="logo-area">
+          <div class="logo-box">∑</div>
+
+          <div>
+            <h1>LinearAI</h1>
+            <p>Workspace</p>
+          </div>
+        </div>
+
+        <!-- NAVIGATION -->
+        <nav class="sidebar-nav">
+
+          <a href="#" class="nav-item active-nav">
+            <span>⌂</span>
+            Dashboard
+          </a>
+
+          <a href="./pages/determinants.html" class="nav-item">
+            <span>Δ</span>
+            Determinantes
+          </a>
+
+          <a href="./pages/inverse.html" class="nav-item">
+            <span>A⁻¹</span>
+            Matriz Inversa
+          </a>
+
+          <a href="./pages/cramer.html" class="nav-item">
+            <span>x</span>
+            Regla de Cramer
+          </a>
+
+          <a href="./pages/help.html" class="nav-item">
+            <span>?</span>
+            Ayuda
+          </a>
+
+        </nav>
+
+      </div>
+
+      <!-- BOTTOM -->
+      <div class="sidebar-footer">
+
+        <div class="footer-card">
+          <p>Sistema Inteligente</p>
+          <span>Álgebra Lineal</span>
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+
+        <div>
+          <h2>Dashboard</h2>
+          <p>Explora los módulos matemáticos</p>
+        </div>
+
+        <div class="topbar-right">
+
+          <div class="search-box">
+            <input type="text" placeholder="Buscar módulo...">
+          </div>
+
+          <div class="profile-box">
+            <div class="profile-avatar"></div>
+
+            <span>Equipo</span>
+          </div>
+
+        </div>
+
+      </header>
+
+      <!-- HERO -->
+      <section class="hero-banner">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+          <div class="hero-tag">
+            Plataforma Educativa Interactiva
+          </div>
+
+          <h1>
+            Aprende Álgebra Lineal
+            visualmente y paso a paso
+          </h1>
+
+          <p>
+            Resuelve determinantes, matrices inversas y sistemas
+            lineales mediante procedimientos explicados detalladamente.
+          </p>
+
+          <button class="hero-button">
+            Explorar módulos
+          </button>
+
+        </div>
+
+      </section>
+
+      <!-- MODULES -->
+      <section class="modules-section">
+
+        <div class="section-title">
+          <h3>Módulos Disponibles</h3>
+        </div>
+
+        <div class="modules-grid">
+
+          <!-- CARD -->
+          <a href="./pages/determinants.html" class="module-card">
+
+            <div class="card-top">
+              <div class="module-icon">Δ</div>
+
+              <div class="module-badge">
+                2x2 · 3x3 · 4x4
+              </div>
+            </div>
+
+            <div class="card-content">
+
+              <h2>Determinantes</h2>
+
+              <p>
+                Método de Sarrus, cofactores y desarrollo paso a paso.
+              </p>
+
+            </div>
+
+          </a>
+
+          <!-- CARD -->
+          <a href="./pages/inverse.html" class="module-card">
+
+            <div class="card-top">
+              <div class="module-icon">A⁻¹</div>
+
+              <div class="module-badge">
+                Adjunta
+              </div>
+            </div>
+
+            <div class="card-content">
+
+              <h2>Matriz Inversa</h2>
+
+              <p>
+                Obtención de matrices inversas mediante determinantes.
+              </p>
+
+            </div>
+
+          </a>
+
+          <!-- CARD -->
+          <a href="./pages/cramer.html" class="module-card">
+
+            <div class="card-top">
+              <div class="module-icon">x</div>
+
+              <div class="module-badge">
+                Sistemas
+              </div>
+            </div>
+
+            <div class="card-content">
+
+              <h2>Regla de Cramer</h2>
+
+              <p>
+                Resolución visual de sistemas de ecuaciones lineales.
+              </p>
+
+            </div>
+
+          </a>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
