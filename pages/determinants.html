@@ -16,7 +16,6 @@
 
 <div class="app-layout">
 
-  <!-- SIDEBAR (igual que dashboard) -->
   <aside class="sidebar">
     <div>
       <div class="logo-area">
@@ -34,10 +33,8 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main-content" x-data="determinantApp()">
 
-    <!-- HEADER -->
     <div class="topbar">
       <div>
         <h2>Determinantes</h2>
@@ -45,80 +42,104 @@
       </div>
     </div>
 
-    <!-- CONTROLES -->
-    <div class="panel">
+    <div class="workspace-grid">
 
-      <div class="controls">
+      <div class="matrix-workspace">
 
-        <select x-model="size">
-          <option value="2">2x2</option>
-          <option value="3">3x3</option>
-          <option value="4">4x4</option>
-        </select>
+        <div class="panel">
+          <div class="controls">
 
-        <select x-model="method">
-          <option value="auto">Automático</option>
-          <option value="sarrus">Sarrus (3x3)</option>
-          <option value="cofactor">Cofactores</option>
-        </select>
+            <select x-model.number="size">
+              <option value="2">2x2</option>
+              <option value="3">3x3</option>
+              <option value="4">4x4</option>
+            </select>
 
-        <button @click="generateMatrix()">Generar</button>
+            <select x-model="method">
+              <option value="auto">Automático</option>
+              <option value="sarrus" x-show="size === 3">Sarrus</option>
+              <option value="cofactor">Cofactores</option>
+            </select>
 
-        <button @click="calculate()">Calcular</button>
+            <button @click="generateMatrix()">
+              Limpiar / Generar
+            </button>
 
-      </div>
+            <button @click="calculate()">
+              Calcular
+            </button>
 
-      <!-- MATRIZ -->
-      <div class="matrix-grid">
+          </div>
+        </div>
 
-        <template x-for="(row, i) in matrix">
-            <div class="matrix-row">
-                <template x-for="(cell, j) in row">
-                <input 
-                    type="number" 
-                    x-model="matrix[i][j]"
-                    :class="getHighlightClass(i,j)"
-                >
+        <div class="matrix-visual-container">
+          <div class="matrix-visual">
+            <template x-for="(row, i) in matrix" :key="'row-'+i">
+              <div class="matrix-row">
+
+                <template x-for="(colIndex, visualJ) in getDisplayColumns()" :key="'cell-'+i+'-'+visualJ">
+                  <div style="display: contents;">
+                    
+                    <div 
+                      class="matrix-cell"
+                      :class="getCellClass(i, visualJ)"
+                      :style="getInlineStyle(i, visualJ)"
+                    >
+                      <input 
+                        type="number" 
+                        x-model.number="matrix[i][colIndex]"
+                        :readonly="visualJ > 2"
+                      >
+                    </div>
+
+                    <template x-if="visualJ === 2 && getDisplayColumns().length > 3">
+                      <div class="sarrus-divider"></div>
+                    </template>
+
+                  </div>
                 </template>
+
+              </div>
+            </template>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="steps-workspace">
+
+        <div class="step-topbar">
+          <h3>Procedimiento</h3>
+          <div class="step-controls">
+            <button @click="prevStep()" :disabled="steps.length === 0">◀</button>
+            <button @click="nextStep()" :disabled="steps.length === 0">▶</button>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number" x-show="steps.length > 0">
+            Paso <span x-text="currentStep + 1"></span> de <span x-text="steps.length"></span>
+          </div>
+          
+          <template x-for="(step, index) in steps" :key="'step-'+index">
+            <div x-show="index === currentStep">
+               <p x-html="step"></p>
             </div>
-        </template>
+          </template>
+          
+          <div x-show="steps.length === 0">
+             <p>Ingresa los valores de la matriz y haz clic en "Calcular" para ver el procedimiento paso a paso.</p>
+          </div>
+        </div>
+
+        <div class="result-card" x-show="result !== null">
+          <span>Resultado</span>
+          <h2 x-text="result"></h2>
+        </div>
 
       </div>
 
     </div>
-
-    <!-- RESULTADOS -->
-    <div class="result-panel">
-
-  <div class="step-header">
-    <h3>Procedimiento</h3>
-
-    <div class="step-controls">
-      <button @click="prevStep()">◀</button>
-      <button @click="nextStep()">▶</button>
-    </div>
-  </div>
-
-  <div class="step-viewer">
-
-    <template x-for="(step, index) in steps">
-      <div 
-        class="step-item"
-        :class="{ 'active-step': index === currentStep }"
-        x-show="index === currentStep"
-      >
-        <span class="step-index" x-text="'Paso ' + (index+1)"></span>
-        <p x-text="step"></p>
-      </div>
-    </template>
-
-  </div>
-
-  <div class="result-box">
-    <h2 x-text="'Resultado: ' + result"></h2>
-  </div>
-
-</div>
 
   </main>
 
