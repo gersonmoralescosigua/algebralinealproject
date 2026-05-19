@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Regla de Cramer</title>
+    <link rel="stylesheet" href="../assets/css/stylecramer.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div>
+            <h2>Cramer</h2>
+            <p class="subtitle">
+                Calculadora paso a paso
+            </p>
+        </div>
+
+        <div class="buttons">
+
+             <button class="exit-btn" onclick="window.location.href='../index.html'">
+                Dashboard
+            </button>
+
+            <button class="size-btn active" data-size="2">
+                Sistema 2x2
+            </button>
+
+            <button class="size-btn" data-size="3">
+                Sistema 3x3
+            </button>
+
+          
+
+        </div>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <div class="top-header">
+
+            <div>
+                <h1>Regla de Cramer</h1>
+                <p>
+                    Resuelve sistemas lineales mostrando todos los pasos.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- MATRIZ -->
+        <div id="inputSection"></div>
+
+        <!-- BOTÓN -->
+        <div class="button-container">
+            <button id="calcularBtn">
+                Resolver Sistema
+            </button>
+        </div>
+
+        <!-- RESULTADOS -->
+        <div id="resultSection">
+            <div class="placeholder">
+                Aquí se mostrarán los pasos detallados para la resolución del sistema. 
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<script src="../assets/js/cramer/cramer-core.js"></script>
+
+</body>
+</html>
