@@ -82,17 +82,17 @@
                     
                     <div 
                       class="matrix-cell"
-                      :class="getCellClass(i, visualJ)"
+                      :class="getCellClass(i, visualJ, [])"
                       :style="getInlineStyle(i, visualJ)"
                     >
                       <input 
                         type="number" 
                         x-model.number="matrix[i][colIndex]"
-                        :readonly="visualJ > 2"
+                        :readonly="calculatedMethod === 'sarrus' && visualJ > 2"
                       >
                     </div>
 
-                    <template x-if="visualJ === 2 && getDisplayColumns().length > 3">
+                    <template x-if="calculatedMethod === 'sarrus' && visualJ === 2">
                       <div class="sarrus-divider"></div>
                     </template>
 
@@ -107,36 +107,69 @@
       </div>
 
       <div class="steps-workspace">
-
         <div class="step-topbar">
-          <h3>Procedimiento</h3>
-          <div class="step-controls">
-            <button @click="prevStep()" :disabled="steps.length === 0">◀</button>
-            <button @click="nextStep()" :disabled="steps.length === 0">▶</button>
-          </div>
+          <h3>Detalles del Cálculo</h3>
         </div>
 
         <div class="step-card">
-          <div class="step-number" x-show="steps.length > 0">
-            Paso <span x-text="currentStep + 1"></span> de <span x-text="steps.length"></span>
+          <p x-show="!calculatedMethod">
+            Ingresa los valores de la matriz y haz clic en "Calcular" para desplegar el procedimiento paso a paso hacia abajo.
+          </p>
+          <div x-show="calculatedMethod">
+            <h4 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem;">
+              Método: <span style="text-transform: capitalize;" x-text="calculatedMethod === 'sarrus' ? 'Regla de Sarrus' : 'Expansión por Cofactores'"></span>
+            </h4>
+            <p>El desglose completo de la operación se ha generado en la parte inferior. Desplázate hacia abajo para estudiarlo en orden secuencial.</p>
           </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="step-section-divider" x-show="steps.length > 0">
+
+    <div class="detailed-steps-list" x-show="steps.length > 0">
+      
+      <template x-for="(step, index) in steps" :key="'step-list-'+index">
+        <div class="step-row-card">
           
-          <template x-for="(step, index) in steps" :key="'step-'+index">
-            <div x-show="index === currentStep">
-               <p x-html="step"></p>
+          <div class="step-text-area">
+            <h3 class="step-title" x-text="'Paso ' + (index + 1)"></h3>
+            <p x-html="step"></p>
+          </div>
+
+          <template x-if="visualSteps[index] && visualSteps[index].length > 0">
+            <div class="step-visual-area">
+              <div class="matrix-visual">
+                <template x-for="(row, i) in matrix" :key="'step-row-'+index+'-'+i">
+                  <div class="matrix-row">
+                    
+                    <template x-for="(colIndex, visualJ) in getDisplayColumns()" :key="'step-cell-'+index+'-'+i+'-'+visualJ">
+                      <div style="display: contents;">
+                        
+                        <div class="matrix-cell read-only-cell" :class="getCellClass(i, visualJ, visualSteps[index])" :style="getInlineStyle(i, visualJ)">
+                          <span x-text="matrix[i][colIndex]"></span>
+                        </div>
+                        
+                        <template x-if="calculatedMethod === 'sarrus' && visualJ === 2">
+                          <div class="sarrus-divider"></div>
+                        </template>
+
+                      </div>
+                    </template>
+
+                  </div>
+                </template>
+              </div>
             </div>
           </template>
-          
-          <div x-show="steps.length === 0">
-             <p>Ingresa los valores de la matriz y haz clic en "Calcular" para ver el procedimiento paso a paso.</p>
-          </div>
-        </div>
 
-        <div class="result-card" x-show="result !== null">
-          <span>Resultado</span>
-          <h2 x-text="result"></h2>
         </div>
+      </template>
 
+      <div class="result-card" x-show="result !== null">
+        <span>Resultado Final</span>
+        <h2 x-text="'det(A) = ' + result"></h2>
       </div>
 
     </div>

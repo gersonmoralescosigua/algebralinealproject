@@ -5,9 +5,8 @@ function determinantApp() {
     matrix: [],
     steps: [],
     result: null,
-    currentStep: 0,
-    visualSteps: [],
-    activeCells: [],
+    visualSteps: [], // Aquí guardamos el arreglo de animaciones para cada paso
+    calculatedMethod: null, 
 
     init() {
       this.generateMatrix();
@@ -19,53 +18,34 @@ function determinantApp() {
           this.method = 'auto';
         }
       });
+
+      this.$watch('method', () => {
+        this.resetState();
+      });
     },
 
     resetState() {
       this.steps = [];
       this.visualSteps = [];
-      this.currentStep = 0;
       this.result = null;
-      this.activeCells = [];
+      this.calculatedMethod = null; 
     },
 
     generateMatrix() {
       this.matrix = Array.from({ length: this.size }, () => Array(this.size).fill(0));
     },
 
-    nextStep() {
-      if (this.currentStep < this.steps.length - 1) {
-        this.currentStep++;
-        this.updateVisualStep();
-      }
-    },
-
-    prevStep() {
-      if (this.currentStep > 0) {
-        this.currentStep--;
-        this.updateVisualStep();
-      }
-    },
-
-    updateVisualStep() {
-      if (this.visualSteps[this.currentStep]) {
-        this.activeCells = this.visualSteps[this.currentStep];
-      } else {
-        this.activeCells = [];
-      }
-    },
-
     getInlineStyle(i, visualJ) {
       let style = '';
-
-      if (visualJ > 2) {
+      if (this.calculatedMethod === 'sarrus' && visualJ > 2) {
         style += 'opacity: 0.6; pointer-events: none; ';
       }
       return style;
     },
 
-    getCellClass(i, j) {
-      let active = this.activeCells.find(cell => cell.i === i && cell.j === j);
+    // AHORA RECIBE DIRECTAMENTE EL ARREGLO DE CELDAS ACTIVAS DEL PASO
+    getCellClass(i, j, activeArray = []) {
+      let active = activeArray.find(cell => cell.i === i && cell.j === j);
       if (!active) return '';
 
       let classes = '';
@@ -158,7 +138,6 @@ function determinantApp() {
     findBestExpansion(m) {
       let maxZeros = -1;
       let best = { type: 'row', index: 0 };
-
       for (let i = 0; i < this.size; i++) {
         let zeros = m[i].filter(v => v === 0).length;
         if (zeros > maxZeros) { maxZeros = zeros; best = { type: 'row', index: i }; }
@@ -173,7 +152,6 @@ function determinantApp() {
 
     calculate() {
       this.resetState();
-
       let m = this.matrix.map(row => row.map(val => Number(val)));
 
       if (!this.validateMatrix(m)) {
@@ -183,25 +161,26 @@ function determinantApp() {
 
       let specialCheck = this.detectSpecialCases(m);
       if (specialCheck === true) {
-        this.result = 0;
-        return;
+        this.result = 0; return;
       } else if (specialCheck === "solved") {
-        return;
+        return; 
       }
 
       if (this.size === 2) {
+        this.calculatedMethod = 'Fórmula directa 2x2';
         this.calculate2x2(m);
       } else if (this.size === 3) {
         if (this.method === 'sarrus') {
+          this.calculatedMethod = 'sarrus';
           this.calculateSarrus(m);
         } else {
+          this.calculatedMethod = 'cofactor';
           this.calculateCofactors(m);
         }
       } else if (this.size === 4) {
+        this.calculatedMethod = 'cofactor';
         this.calculateCofactors(m);
       }
-      
-      this.updateVisualStep();
     },
 
     calculate2x2(m) {
@@ -211,7 +190,7 @@ function determinantApp() {
     },
 
     getDisplayColumns() {
-      if (this.size === 3 && this.method === 'sarrus' && this.steps.length > 0) {
+      if (this.size === 3 && this.calculatedMethod === 'sarrus') {
         return [0, 1, 2, 0, 1];
       }
       return Array.from({ length: this.size }, (_, i) => i);
@@ -226,9 +205,9 @@ function determinantApp() {
       let neg1 = c*e*g, neg2 = a*f*h, neg3 = b*d*i;
 
       this.steps = [
-        `<b>Método de Sarrus:</b><br>Multiplicamos las diagonales positivas (izquierda a derecha):<br>D₁ = (${a} × ${e} × ${i}) = ${pos1}<br>D₂ = (${b} × ${f} × ${g}) = ${pos2}<br>D₃ = (${c} × ${d} × ${h}) = ${pos3}`,
-        `Multiplicamos las diagonales negativas (derecha a izquierda):<br>D₄ = (${c} × ${e} × ${g}) = ${neg1}<br>D₅ = (${a} × ${f} × ${h}) = ${neg2}<br>D₆ = (${b} × ${d} × ${i}) = ${neg3}`,
-        `<b>Resultado final:</b><br>Sumamos las positivas y restamos las negativas:<br>det = (${pos1} + ${pos2} + ${pos3}) - (${neg1} + ${neg2} + ${neg3})`
+        `<b>Multiplicamos las diagonales positivas (izquierda a derecha):</b><br>D₁ = (${a} × ${e} × ${i}) = ${pos1}<br>D₂ = (${b} × ${f} × ${g}) = ${pos2}<br>D₃ = (${c} × ${d} × ${h}) = ${pos3}`,
+        `<b>Multiplicamos las diagonales negativas (derecha a izquierda):</b><br>D₄ = (${c} × ${e} × ${g}) = ${neg1}<br>D₅ = (${a} × ${f} × ${h}) = ${neg2}<br>D₆ = (${b} × ${d} × ${i}) = ${neg3}`,
+        `<b>Sumamos las positivas y restamos las negativas:</b><br>det = (${pos1} + ${pos2} + ${pos3}) - (${neg1} + ${neg2} + ${neg3})`
       ];
 
       this.visualSteps = [
