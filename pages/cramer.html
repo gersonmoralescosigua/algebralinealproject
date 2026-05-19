@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title>Calculadora Regla de Cramer</title>
+
     <link rel="stylesheet" href="../assets/css/stylecramer.css">
 </head>
+
 <body>
 
-<div class="container">
+<div class="app-layout">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <div>
-            <h2>Cramer</h2>
-            <p class="subtitle">
-                Calculadora paso a paso
-            </p>
-        </div>
 
-        <div class="buttons">
+            <div class="logo-area">
+                <div class="logo-box">∑</div>
 
-             <button class="exit-btn" onclick="window.location.href='../index.html'">
-                Dashboard
-            </button>
+                <div>
+                    <h1>Cramer</h1>
+                    <p>Workspace</p>
+                </div>
+            </div>
 
-            <button class="size-btn active" data-size="2">
-                Sistema 2x2
-            </button>
+            <nav class="sidebar-nav">
 
-            <button class="size-btn" data-size="3">
-                Sistema 3x3
-            </button>
+                <button onclick="window.location.href='../index.html'" class="nav-item">
+                     ⌂ Dashboard
+                </button>
 
-          
+                
+                <button class="nav-item active-nav">
+                    Δ Regla de Cramer
+                </button>
 
+            </nav>
+
+            
         </div>
 
     </aside>
@@ -43,32 +48,93 @@
     <!-- CONTENIDO -->
     <main class="main-content">
 
-        <div class="top-header">
+        <!-- TOPBAR -->
+        <div class="topbar">
 
             <div>
-                <h1>Regla de Cramer</h1>
+                <h2>Regla de Cramer</h2>
+
                 <p>
-                    Resuelve sistemas lineales mostrando todos los pasos.
+                    Resolución paso a paso
                 </p>
             </div>
 
         </div>
 
-        <!-- MATRIZ -->
-        <div id="inputSection"></div>
+        <!-- WORKSPACE -->
+        <div class="workspace-grid">
 
-        <!-- BOTÓN -->
-        <div class="button-container">
-            <button id="calcularBtn">
-                Resolver Sistema
-            </button>
+            <!-- MATRICES -->
+            <div class="matrix-workspace">
+
+                <div class="panel">
+
+                    <div class="controls">
+
+                        <button class="size-btn active" data-size="2">
+                            Sistema 2x2
+                        </button>
+
+                        <button class="size-btn" data-size="3">
+                            Sistema 3x3
+                        </button>
+
+                        <button id="calcularBtn">
+                            Resolver Sistema
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- INPUTS -->
+                <div class="matrix-visual-container">
+
+                    <div class="matrix-visual">
+
+                        <div id="inputSection"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- DETALLES -->
+            <div class="steps-workspace">
+
+                <div class="step-topbar">
+                    <h3>Detalles del Cálculo</h3>
+                </div>
+
+                <div class="step-card">
+
+                    <p>
+                        Ingresa los valores del sistema y presiona
+                        "Resolver Sistema" para desplegar el procedimiento
+                        completo paso a paso.
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
+        <!-- DIVIDER -->
+        <hr class="step-section-divider">
+
         <!-- RESULTADOS -->
-        <div id="resultSection">
-            <div class="placeholder">
-                Aquí se mostrarán los pasos detallados para la resolución del sistema. 
+        <div class="detailed-steps-list">
+
+            <div id="resultSection">
+
+                <div class="placeholder">
+                    Aquí se mostrarán los pasos detallados para la resolución del sistema.
+                </div>
+
             </div>
+
         </div>
 
     </main>

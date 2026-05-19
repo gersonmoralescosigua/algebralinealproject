@@ -22,15 +22,22 @@
 body {
     background: var(--bg);
     color: var(--text);
+    overflow-x: hidden;
 }
 
-/* CONTENEDOR GENERAL */
-.container {
+/* =========================
+   LAYOUT GENERAL
+========================= */
+
+.app-layout {
     display: flex;
     min-height: 100vh;
 }
 
-/* ========== SIDEBAR ========== */
+/* =========================
+   SIDEBAR
+========================= */
+
 .sidebar {
     width: 280px;
     background: var(--sidebar);
@@ -40,52 +47,91 @@ body {
     flex-direction: column;
     justify-content: space-between;
     position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0 auto 0 0;
+    z-index: 100;
 }
 
-.sidebar h2 {
-    font-size: 2rem;
-    text-align: center;
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.logo-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
     background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
-.subtitle {
-    text-align: center;
+.logo-area h1 {
+    font-size: 1.6rem;
+    color: var(--text);
+}
+
+.logo-area p {
     color: var(--muted);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
-/* Botones del sidebar */
-.buttons {
+.sidebar-nav {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+}
+
+.nav-item {
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--muted);
+    transition: all 0.25s ease;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.nav-item:hover {
+    background: var(--panel);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.active-nav {
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--accent);
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
     margin-top: 2rem;
 }
 
 .size-btn {
-    padding: 0.875rem;
-    border: 1px solid var(--border);
+    padding: 0.9rem;
     border-radius: 14px;
+    border: 1px solid var(--border);
     background: var(--panel);
     color: var(--text);
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    transition: all 0.3s ease;
-    width: 100%;
+    transition: all 0.25s ease;
 }
 
 .size-btn:hover {
     background: var(--panel-2);
-    transform: translateY(-2px);
     border-color: var(--accent);
+    transform: translateY(-2px);
 }
 
 .size-btn.active {
@@ -94,83 +140,127 @@ body {
     border-color: var(--accent);
 }
 
-.exit-btn {
-     padding: 0.875rem;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--panel);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    width: 100%;
-}
+/* =========================
+   MAIN CONTENT
+========================= */
 
-.exit-btn:hover {
-    background: var(--panel-2);
-    transform: translateY(-2px);
-    border-color: var(--error);
-    color: var(--error);
-}
-
-.exit-btn:active {
-    background: var(--error);
-    color: black;
-    border-color: var(--error);
-}
-
-/* ========== MAIN CONTENT ========== */
 .main-content {
     margin-left: 280px;
     width: calc(100% - 280px);
     padding: 2rem;
 }
 
-/* Top header */
-.top-header {
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
     margin-bottom: 2rem;
 }
 
-.top-header h1 {
-    font-size: 2.2rem;
-    color: var(--text);
+.topbar h2 {
+    font-size: 2rem;
     margin-bottom: 0.5rem;
 }
 
-.top-header p {
+.topbar p {
     color: var(--muted);
-    font-size: 0.95rem;
 }
 
-/* SECCIÓN DE INPUTS */
-#inputSection {
+/* =========================
+   GRID PRINCIPAL
+========================= */
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.9fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/* =========================
+   PANEL
+========================= */
+
+.panel {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 1.5rem;
+    border-radius: 22px;
+    padding: 1.25rem;
     margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+#calcularBtn {
+    padding: 0.9rem 1.4rem;
+    border: none;
+    border-radius: 14px;
+    background: var(--accent);
+    color: black;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.25s ease;
+}
+
+#calcularBtn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+/* =========================
+   MATRIZ
+========================= */
+
+.matrix-workspace {
+    min-width: 0;
+}
+
+.matrix-visual-container {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2rem;
     overflow-x: auto;
+    box-shadow: var(--shadow);
+}
+
+.matrix-visual {
+    min-width: fit-content;
+}
+
+#inputSection {
+    width: 100%;
 }
 
 .matrix-input {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 1.5rem;
     flex-wrap: wrap;
 }
 
-/* TABLAS */
+/* =========================
+   TABLAS
+========================= */
+
 table {
-    margin: 0 auto;
     border-collapse: collapse;
     background: var(--panel-2);
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
+    min-width: max-content;
 }
 
-th, td {
+th,
+td {
     border: 1px solid var(--border);
     padding: 12px;
     text-align: center;
@@ -179,194 +269,232 @@ th, td {
 th {
     background: var(--accent);
     color: black;
-    font-weight: 600;
+    font-weight: 700;
 }
 
-/* INPUTS dentro de la tabla */
+/* =========================
+   INPUTS
+========================= */
+
 .matrix-input input {
-    width: 70px;
-    padding: 10px;
+    width: 72px;
+    height: 52px;
     text-align: center;
-    font-size: 16px;
+    border-radius: 10px;
     border: 1px solid var(--border);
-    border-radius: 8px;
     background: var(--bg);
     color: var(--text);
-    transition: all 0.2s;
+    font-size: 1rem;
+    transition: all 0.2s ease;
 }
 
 .matrix-input input:focus {
     outline: none;
     border-color: var(--accent);
-    box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
 }
 
 .equal {
-    font-size: 24px;
+    font-size: 2rem;
     font-weight: bold;
-    margin: 0 10px;
     color: var(--text);
 }
 
-/* BOTÓN PRINCIPAL */
-.button-container {
-    text-align: center;
-    margin: 1.5rem 0;
+/* =========================
+   STEPS PANEL
+========================= */
+
+.steps-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-#calcularBtn {
-    padding: 12px 32px;
-    background: var(--accent);
-    color: black;
-    font-weight: 600;
-    font-size: 1rem;
+.step-topbar {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1rem 1.25rem;
+}
+
+.step-topbar h3 {
+    font-size: 1.1rem;
+}
+
+.step-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 1.5rem;
+    color: var(--muted);
+    line-height: 1.7;
+    box-shadow: var(--shadow);
+}
+
+/* =========================
+   DIVIDER
+========================= */
+
+.step-section-divider {
+    margin: 2rem 0;
     border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    border-top: 1px solid var(--border);
 }
 
-#calcularBtn:hover {
-    background: var(--accent-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+/* =========================
+   RESULTADOS
+========================= */
+
+.detailed-steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-/* SECCIÓN DE RESULTADOS */
 #resultSection {
-    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .placeholder {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 22px;
     padding: 2rem;
     text-align: center;
     color: var(--muted);
 }
 
-/* PASOS DETALLADOS */
+/* =========================
+   PASOS
+========================= */
+
 .step {
-    background: var(--panel-2);
-    margin-bottom: 1rem;
-    padding: 1.25rem;
-    border-radius: 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
     border-left: 4px solid var(--accent);
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
+    border-radius: 20px;
+    padding: 1.5rem;
+    animation: fadeIn 0.35s ease;
     overflow-x: auto;
-    color: var(--text);
-    animation: fadeIn 0.4s ease;
 }
 
 .step h3 {
-    margin-top: 0;
-    margin-bottom: 0.75rem;
     color: var(--accent);
-    font-family: 'Inter', sans-serif;
+    margin-bottom: 1rem;
 }
 
 .step p {
-    margin: 8px 0;
-    line-height: 1.6;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
 }
 
 .step pre {
     background: var(--bg);
-    padding: 12px;
-    border-radius: 10px;
-    overflow-x: auto;
-    margin-top: 10px;
     border: 1px solid var(--border);
-    font-family: monospace;
+    border-radius: 14px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-top: 1rem;
 }
 
-/* SOLUCIÓN FINAL */
+/* =========================
+   SOLUCIÓN Y ERROR
+========================= */
+
 .solution {
     background: rgba(34, 197, 94, 0.08);
-    border-left-color: var(--accent);
-    font-weight: 600;
-    font-size: 15px;
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-color: rgba(34, 197, 94, 0.25);
 }
 
-/* ERROR */
 .error {
     background: rgba(239, 68, 68, 0.08);
     border-left-color: var(--error);
+    border-color: rgba(239, 68, 68, 0.2);
     color: #f87171;
-    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
-/* ANIMACIÓN */
+/* =========================
+   ANIMACIONES
+========================= */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* ========== RESPONSIVE ========== */
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .workspace-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 900px) {
+
     .sidebar {
-        width: 100%;
         position: relative;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 1rem;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
     }
-    
-    .buttons {
-        flex-direction: row;
-        margin-top: 0;
+
+    .app-layout {
+        flex-direction: column;
     }
-    
+
     .main-content {
         margin-left: 0;
         width: 100%;
         padding: 1.5rem;
     }
-    
-    .container {
-        flex-direction: column;
-    }
-    
-    .sidebar h2 {
-        font-size: 1.5rem;
-    }
 }
 
 @media (max-width: 768px) {
+
     .main-content {
         padding: 1rem;
     }
-    
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .matrix-input input {
-        width: 50px;
-        font-size: 12px;
-        padding: 6px;
+        width: 55px;
+        height: 45px;
+        font-size: 0.9rem;
     }
-    
-    th, td {
-        padding: 6px;
+
+    .topbar h2 {
+        font-size: 1.5rem;
     }
-    
-    .size-btn {
-        padding: 0.6rem;
-        font-size: 0.85rem;
-    }
-    
-    .top-header h1 {
-        font-size: 1.6rem;
+
+    .matrix-visual-container,
+    .step-card,
+    .panel {
+        padding: 1rem;
     }
 }
 
-/* Scrollbar personalizada (opcional) */
+/* =========================
+   SCROLLBAR
+========================= */
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -374,12 +502,11 @@ th {
 
 ::-webkit-scrollbar-track {
     background: var(--panel);
-    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: var(--muted);
-    border-radius: 10px;
+    border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
