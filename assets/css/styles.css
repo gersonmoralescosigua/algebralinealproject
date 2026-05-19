@@ -902,3 +902,72 @@ body{
   background: rgba(239, 68, 68, 0.8);
   transform: translate(-50%, -50%) rotate(-45deg);
 }
+
+/* --- NUEVA ESTRUCTURA DE PASOS SECUENCIALES --- */
+
+.step-section-divider {
+  margin: 3rem 0;
+  border: none;
+  border-top: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.detailed-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.step-row-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2.5rem;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.step-text-area {
+  flex: 1;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.step-title {
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.step-visual-area {
+  background: #09090b;
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Las celdas en el breakdown visual solo muestran texto, no inputs */
+.read-only-cell {
+  width: 65px;
+  height: 65px;
+}
+
+.read-only-cell span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  z-index: 10;
+  position: relative;
+}
+
+/* Responsividad para pantallas más pequeñas (apila el texto arriba de la matriz) */
+@media (max-width: 1024px) {
+  .step-row-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
