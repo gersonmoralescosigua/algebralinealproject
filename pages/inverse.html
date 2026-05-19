@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Matriz Inversa | LinearAI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+        },
+        svg: { fontCache: "global" },
+      };
+    </script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div>
+          <div class="logo-area">
+            <div class="logo-box">∑</div>
+            <div>
+              <h1>LinearAI</h1>
+              <p>Workspace</p>
+            </div>
+          </div>
+
+          <nav class="sidebar-nav">
+            <a href="../index.html" class="nav-item">⌂ Dashboard</a>
+            <a href="../pages/determinants.html" class="nav-item">
+              Δ Determinantes
+            </a>
+            <a href="#" class="nav-item active-nav">A⁻¹ Inversa</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main
+        class="main-content"
+        x-data="inverseApp()"
+        x-init="generateMatrix()"
+      >
+        <div class="topbar">
+          <div>
+            <h2>Matriz Inversa</h2>
+            <p>Método de la adjunta</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="controls">
+            <select x-model="size" @change="generateMatrix()">
+              <option value="2">2x2</option>
+              <option value="3">3x3</option>
+              <option value="4">4x4</option>
+            </select>
+
+            <button @click="generateMatrix()">Generar</button>
+            <button @click="calculate()">Calcular</button>
+          </div>
+
+          <div class="matrix-grid">
+            <template x-for="(row, i) in matrix">
+              <div class="matrix-row">
+                <template x-for="(cell, j) in row">
+                  <input type="number" x-model="matrix[i][j]" />
+                </template>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <div class="result-panel" x-show="steps.length > 0">
+          <div class="step-header">
+            <h3 x-text="steps[currentStep]?.title || 'Paso'"></h3>
+            <div class="step-controls">
+              <button @click="prevStep()" :disabled="currentStep === 0">
+                ◀ Anterior
+              </button>
+              <button
+                @click="nextStep()"
+                :disabled="currentStep === steps.length - 1 && !verificationMode"
+              >
+                Siguiente ▶
+              </button>
+            </div>
+          </div>
+
+          <template x-if="steps[currentStep]?.type === 'determinant'">
+            <div class="step-item">
+              <p x-text="steps[currentStep]?.explanation"></p>
+
+              <div
+                class="math-block"
+                x-html="steps[currentStep]?.expansionLatex"
+              ></div>
+
+              <template x-if="steps[currentStep]?.minorsTitle">
+                <p
+                  class="mt-4 text-green-400 font-semibold"
+                  x-text="steps[currentStep]?.minorsTitle"
+                ></p>
+              </template>
+              <div
+                class="math-block"
+                x-html="steps[currentStep]?.minorsLatex"
+              ></div>
+
+              <template x-if="steps[currentStep]?.substitutionTitle">
+                <p
+                  class="mt-4 text-green-400 font-semibold"
+                  x-text="steps[currentStep]?.substitutionTitle"
+                ></p>
+              </template>
+              <div
+                class="math-block"
+                x-html="steps[currentStep]?.substitutionLatex"
+              ></div>
+
+              <h4
+                class="mt-4 text-lg font-bold"
+                :class="steps[currentStep]?.det === 0 ? 'text-red-400' : 'text-green-400'"
+                x-text="steps[currentStep]?.conclusion"
+              ></h4>
+            </div>
+          </template>
+
+          <template x-if="steps[currentStep]?.type === 'cofactors'">
+            <div class="step-item">
+              <p x-html="steps[currentStep].formula"></p>
+              <template x-for="row in steps[currentStep].rows">
+                <div class="cofactor-row">
+                  <h4 class="font-bold text-green-400" x-text="row.title"></h4>
+                  <template x-for="item in row.items">
+                    <div class="cofactor-item flex items-center gap-4">
+                      <strong class="text-white" x-text="item.label"></strong>
+                      <div class="matrix-result">
+                        <template x-for="r in item.matrix">
+                          <div class="matrix-row">
+                            <template x-for="c in r">
+                              <div class="matrix-cell" x-text="c"></div>
+                            </template>
+                          </div>
+                        </template>
+                      </div>
+                      <p x-text="item.calc"></p>
+                      <p class="font-bold" x-text="item.result"></p>
+                    </div>
+                  </template>
+                </div>
+              </template>
+
+              <h4 class="mt-6 text-green-400 font-bold">
+                Matriz de Cofactores
+              </h4>
+              <div class="matrix-result">
+                <template x-for="row in steps[currentStep].matrixFormatted">
+                  <div class="matrix-row">
+                    <template x-for="cell in row">
+                      <div class="matrix-cell" x-text="cell"></div>
+                    </template>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+
+          <template x-if="steps[currentStep]?.type === 'adjoint'">
+            <div class="step-item">
+              <p x-text="steps[currentStep].explanation"></p>
+
+              <div class="flex flex-wrap items-center gap-6 mt-4">
+                <div>
+                  <h4 class="text-sm text-gray-400 mb-2">Cofactores</h4>
+                  <div class="matrix-result">
+                    <template x-for="row in steps[currentStep].original">
+                      <div class="matrix-row">
+                        <template x-for="cell in row">
+                          <div class="matrix-cell" x-text="cell"></div>
+                        </template>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+                <div class="text-2xl text-green-400">➡</div>
+                <div>
+                  <h4 class="text-sm text-green-400 mb-2">
+                    Adjunta (Transpuesta)
+                  </h4>
+                  <div class="matrix-result">
+                    <template x-for="row in steps[currentStep].result">
+                      <div class="matrix-row">
+                        <template x-for="cell in row">
+                          <div
+                            class="matrix-cell border-green-500"
+                            x-text="cell"
+                          ></div>
+                        </template>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template x-if="steps[currentStep]?.type === 'inverse'">
+            <div class="step-item">
+              <p
+                class="mb-4 text-gray-300"
+                x-text="steps[currentStep].explanation"
+              ></p>
+              <div
+                class="math-block bg-black/30 p-6 rounded-xl border border-gray-800 overflow-x-auto text-lg"
+                x-html="steps[currentStep]?.latex"
+              ></div>
+            </div>
+          </template>
+
+          <template x-if="steps[currentStep]?.type === 'verification'">
+            <div class="step-item">
+              <p
+                class="mb-4 text-green-400 font-bold"
+                x-text="steps[currentStep].explanation"
+              ></p>
+
+              <template x-if="steps[currentStep].previewLatex">
+                <div
+                  class="math-block bg-black/30 p-4 rounded-xl border border-gray-800 mb-6 overflow-x-auto text-lg"
+                  x-html="steps[currentStep].previewLatex"
+                ></div>
+              </template>
+
+              <template x-for="row in steps[currentStep].verifySteps">
+                <div class="verify-row">
+                  <h4
+                    class="font-bold text-white mb-2"
+                    x-text="row.rowTitle"
+                  ></h4>
+                  <p
+                    class="text-sm text-gray-400 mb-2"
+                    x-text="row.rowVector"
+                  ></p>
+
+                  <template x-for="col in row.cols">
+                    <div class="verify-col flex items-start gap-2">
+                      <strong
+                        class="text-green-400 w-24 shrink-0"
+                        x-text="col.label"
+                      ></strong>
+                      <span x-html="col.calc"></span>
+                    </div>
+                  </template>
+
+                  <div
+                    class="mt-3 p-2 bg-green-900/20 rounded border border-green-500/30"
+                  >
+                    <strong class="text-green-400">Resultado: </strong>
+                    <span x-text="row.resultVector"></span>
+                  </div>
+                </div>
+              </template>
+
+              <div
+                class="mt-6 flex flex-col items-center justify-center p-4 bg-black/40 rounded-xl border border-gray-800"
+              >
+                <h3
+                  class="text-green-400 mb-4 font-bold"
+                  x-text="steps[currentStep].conclusion"
+                ></h3>
+                <div
+                  class="math-block text-xl"
+                  x-html="steps[currentStep].identityLatex"
+                ></div>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <div
+          class="mt-4"
+          x-show="steps.length > 0 && currentStep === steps.length - 1 && steps[currentStep].type === 'inverse'"
+        >
+          <button class="hero-button" @click="verify()">
+            Verificar resultado (A · A⁻¹)
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <script src="../assets/js/inverse/inverse-core.js"></script>
+  </body>
+</html>
