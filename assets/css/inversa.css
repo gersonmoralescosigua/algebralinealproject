@@ -65,6 +65,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.step-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .step-controls button {
@@ -74,6 +82,16 @@
   border-radius: 8px;
   color: white;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.step-controls button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.step-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .step-viewer {
