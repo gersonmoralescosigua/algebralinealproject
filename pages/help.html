@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ayuda y Tutoriales | LinearAI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+
+<div class="app-layout">
+  <aside class="sidebar">
+    <div>
+      <div class="logo-area">
+        <div class="logo-box">∑</div>
+        <div>
+          <h1>LinearAI</h1>
+          <p>Workspace</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="../index.html" class="nav-item"><span>⌂</span> Dashboard</a>
+        <a href="./determinants.html" class="nav-item"><span>Δ</span> Determinantes</a>
+        <a href="./inverse.html" class="nav-item"><span>A⁻¹</span> Matriz Inversa</a>
+        <a href="./cramer.html" class="nav-item"><span>x</span> Regla de Cramer</a>
+        <a href="./help.html" class="nav-item active-nav"><span>?</span> Ayuda</a>
+      </nav>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <div>
+        <h2>Centro de Ayuda</h2>
+        <p>Tutoriales y teoría matemática</p>
+      </div>
+    </div>
+
+    <div class="panel" style="max-width: 800px; margin: 0 auto; padding: 3rem;">
+      <h3 style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">¿Cómo se calculan las determinantes?</h3>
+      <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
+        El cálculo de determinantes es fundamental en el álgebra lineal para encontrar la matriz inversa o resolver sistemas de ecuaciones mediante la Regla de Cramer.
+      </p>
+
+      <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: white;">Método de Sarrus (3x3)</h4>
+      <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
+        La regla de Sarrus es un método fácil de memorizar para calcular el determinante de una matriz de 3×3. Consiste en duplicar las dos primeras columnas hacia la derecha y multiplicar las diagonales principales (positivas) menos las diagonales secundarias (negativas).
+      </p>
+
+      <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: white;">Expansión por Cofactores</h4>
+      <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
+        Para matrices más grandes (como 4x4), utilizamos el teorema de Laplace o expansión por cofactores. Lo ideal es elegir la fila o columna que contenga la mayor cantidad de ceros para simplificar el proceso aritmético.
+      </p>
+
+      <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); padding: 1.5rem; border-radius: 14px; margin-top: 3rem;">
+        <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Consejo Rápido</h4>
+        <p style="color: var(--text);">
+          Recuerda las propiedades de las matrices: si una matriz tiene una fila o columna completa de ceros, o dos filas proporcionales, ¡su determinante siempre será 0!
+        </p>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
