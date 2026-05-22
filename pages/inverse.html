@@ -39,17 +39,15 @@
 
   <body>
     <div class="app-layout">
-
-
       <aside class="sidebar">
         <div>
           <div class="logo-area">
-          <div class="logo-box">∑</div>
-          <div>
-            <h1>LinearAI</h1>
-            <p>Workspace</p>
+            <div class="logo-box">∑</div>
+            <div>
+              <h1>LinearAI</h1>
+              <p>Workspace</p>
+            </div>
           </div>
-        </div>
 
           <nav class="sidebar-nav">
               <a href="../index.html" class="nav-item"><span>⌂</span> Dashboard</a>
@@ -60,7 +58,6 @@
           </nav>
         </div>
       </aside>
-
 
       <main
         class="main-content"
@@ -101,7 +98,10 @@
           <div class="step-header">
             <h3 x-text="steps[currentStep]?.title || 'Paso'"></h3>
 
-            <div class="step-controls" x-show="steps[currentStep]?.det !== 0">
+            <div
+              class="step-controls"
+              x-show="steps[currentStep]?.det !== 0 && !steps[currentStep]?.isIdentityCase"
+            >
               <button @click="prevStep()" :disabled="currentStep === 0">
                 ◀ Anterior
               </button>
@@ -114,6 +114,7 @@
             </div>
           </div>
 
+          <!-- ===== PASO 1: DETERMINANTE ===== -->
           <template x-if="steps[currentStep]?.type === 'determinant'">
             <div class="step-item">
               <p x-text="steps[currentStep]?.explanation"></p>
@@ -129,10 +130,35 @@
                   x-text="steps[currentStep]?.minorsTitle"
                 ></p>
               </template>
+
               <div
                 class="math-block"
                 x-html="steps[currentStep]?.minorsLatex"
               ></div>
+
+              <!-- Visuales de Sarrus extendido para 4x4 -->
+              <template x-if="steps[currentStep]?.sarrusVisuals">
+                <div class="mt-4">
+                  <p class="text-green-400 font-semibold mb-3">
+                    Matrices extendidas (Sarrus visual por menor 3×3):
+                  </p>
+                  <template x-for="sv in steps[currentStep].sarrusVisuals">
+                    <div class="cofactor-row mb-4">
+                      <h4
+                        class="font-bold text-white mb-1"
+                        x-html="sv.label"
+                      ></h4>
+                      <p class="text-xs text-gray-400 mb-1">
+                        Coeficiente:
+                        <span x-text="sv.sign + '(' + sv.val + ')'"></span>
+                        &nbsp;·&nbsp; Det menor:
+                        <span x-text="sv.detMinor"></span>
+                      </p>
+                      <div x-html="sv.html"></div>
+                    </div>
+                  </template>
+                </div>
+              </template>
 
               <template x-if="steps[currentStep]?.substitutionTitle">
                 <p
@@ -147,17 +173,18 @@
 
               <div
                 class="mt-6 p-4 rounded-xl"
-                :class="steps[currentStep]?.det === 0 ? 'bg-red-900/20 border border-red-500/30' : 'bg-green-900/20 border border-green-500/30'"
+                :class="steps[currentStep]?.det === 0 ? 'bg-red-900/20 border border-red-500/30' : (steps[currentStep]?.isIdentityCase ? 'bg-blue-900/20 border border-blue-500/30' : 'bg-green-900/20 border border-green-500/30')"
               >
-                <h4
-                  class="text-lg font-bold"
-                  :class="steps[currentStep]?.det === 0 ? 'text-red-400' : 'text-green-400'"
+                <div
+                  class="text-base font-bold"
+                  :class="steps[currentStep]?.det === 0 ? 'text-red-400' : (steps[currentStep]?.isIdentityCase ? 'text-blue-300' : 'text-green-400')"
                   x-html="steps[currentStep]?.conclusion"
-                ></h4>
+                ></div>
               </div>
             </div>
           </template>
 
+          <!-- ===== PASO 2: COFACTORES ===== -->
           <template x-if="steps[currentStep]?.type === 'cofactors'">
             <div class="step-item">
               <p x-html="steps[currentStep].formula"></p>
@@ -165,22 +192,40 @@
                 <div class="cofactor-row">
                   <h4 class="font-bold text-green-400" x-text="row.title"></h4>
                   <template x-for="item in row.items">
-                    <div
-                      class="cofactor-item flex items-center gap-4 flex-wrap"
-                    >
-                      <strong class="text-white" x-text="item.label"></strong>
-                      <div class="matrix-result">
-                        <template x-for="r in item.matrix">
-                          <div class="matrix-row">
-                            <template x-for="c in r">
-                              <div class="matrix-cell" x-text="c"></div>
+                    <div class="cofactor-item flex items-start gap-4 flex-wrap">
+                      <strong
+                        class="text-white shrink-0 mt-1"
+                        x-text="item.label"
+                      ></strong>
+
+                      <!-- Submatriz 3x3 (solo cuando NO es sarrusHtml, es decir 2x2 y 3x3 originales) -->
+                      <template x-if="!item.sarrusHtml">
+                        <div>
+                          <div class="matrix-result">
+                            <template x-for="r in item.matrix">
+                              <div class="matrix-row">
+                                <template x-for="c in r">
+                                  <div class="matrix-cell" x-text="c"></div>
+                                </template>
+                              </div>
                             </template>
                           </div>
-                        </template>
-                      </div>
-                      <p class="text-sm text-gray-300" x-html="item.calc"></p>
+                          <p
+                            class="text-sm text-gray-300 mt-2"
+                            x-html="item.calc"
+                          ></p>
+                        </div>
+                      </template>
+
+                      <!-- Visual Sarrus extendido para 4x4 -->
+                      <template x-if="item.sarrusHtml">
+                        <div class="w-full mt-1">
+                          <div x-html="item.sarrusHtml"></div>
+                        </div>
+                      </template>
+
                       <p
-                        class="font-bold text-green-400 text-lg"
+                        class="font-bold text-green-400 text-lg shrink-0 mt-1"
                         x-text="item.result"
                       ></p>
                     </div>
@@ -203,6 +248,7 @@
             </div>
           </template>
 
+          <!-- ===== PASO 3: ADJUNTA ===== -->
           <template x-if="steps[currentStep]?.type === 'adjoint'">
             <div class="step-item">
               <p x-text="steps[currentStep].explanation"></p>
@@ -242,6 +288,7 @@
             </div>
           </template>
 
+          <!-- ===== PASO 4: INVERSA ===== -->
           <template x-if="steps[currentStep]?.type === 'inverse'">
             <div class="step-item">
               <template x-if="steps[currentStep].specialCase">
@@ -266,6 +313,7 @@
             </div>
           </template>
 
+          <!-- ===== PASO 5: VERIFICACIÓN ===== -->
           <template x-if="steps[currentStep]?.type === 'verification'">
             <div class="step-item">
               <p
