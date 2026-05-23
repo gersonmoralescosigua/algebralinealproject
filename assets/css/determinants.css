@@ -8,7 +8,6 @@
 
 body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
 
-/* LAYOUT & SIDEBAR */
 .app-layout { display:flex; min-height:100vh; }
 .sidebar { width:260px; background:var(--sidebar); border-right:1px solid var(--border); padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between; position:fixed; left:0; top:0; bottom:0; }
 .logo-area { display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
@@ -20,7 +19,6 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 .nav-item:hover { background:rgba(255,255,255,0.04); color:white; }
 .active-nav { background:rgba(34,197,94,0.12); color:white; border:1px solid rgba(34,197,94,0.15); }
 
-/* MAIN CONTENT & TOPBAR */
 .main-content { margin-left:260px; width:calc(100% - 260px); padding:2rem; }
 .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; }
 .topbar h2 { font-size:2rem; margin-bottom:0.3rem; }
@@ -76,3 +74,444 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 @media(max-width:1200px){ .workspace-grid{ grid-template-columns:1fr; } }
 @media(max-width:1100px){ .sidebar{ display:none; } .main-content{ width:100%; margin-left:0; } }
 @media(max-width:768px){ .topbar{ flex-direction:column; align-items:flex-start; gap:1rem; } .step-row-card { flex-direction: column; align-items: stretch; } }
+
+/* =========================================
+   ESTILOS PARA COFACTORES (Matrices en línea)
+   ========================================= */
+
+.math-step-block {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.15rem;
+  color: #E4E4E7;
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.math-step-line {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.math-step-line:last-child {
+  margin-bottom: 0;
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.inline-matrix {
+  display: inline-block;
+  vertical-align: middle;
+  border-left: 2px solid var(--text);
+  border-right: 2px solid var(--text);
+  padding: 0 6px;
+  margin: 0 8px;
+  text-align: center;
+  line-height: 1.4;
+  font-size: 1rem;
+  border-radius: 2px;
+}
+
+.inline-matrix-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.inline-matrix-cell {
+  min-width: 18px;
+}
+
+/* ==========================================================================
+   NUEVO COMPONENTE: ECUACIONES Y MATRICES VISUALES POR COFACTORES
+   ========================================================================== */
+
+/* Contenedor principal de la igualdad matemática */
+.visual-equation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+/* Fila o línea de la ecuación en cascada */
+.visual-equation-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #FAFAFA;
+}
+
+/* Resaltado del identificador inicial (Ej: det(A) =) */
+.equation-label {
+  color: var(--muted);
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Nodo o término individual (Coeficiente + Matriz o Bloque) */
+.equation-term {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0.4rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Estilo para los coeficientes numéricos multiplicadores */
+.term-coef {
+  font-weight: 700;
+  color: #FAFAFA;
+  font-size: 1.2rem;
+  padding: 0 0.2rem;
+}
+
+/* Las barras del determinante real dibujadas limpiamente */
+.mini-matrix-bracket {
+  display: inline-flex;
+  padding: 0 0.4rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.6);
+  border-right: 2px solid rgba(255, 255, 255, 0.6);
+  margin: 0 0.2rem;
+  vertical-align: middle;
+}
+
+/* Grid interno de las mini celdas matemáticas */
+.mini-matrix-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mini-matrix-row {
+  display: flex;
+  gap: 4px;
+}
+
+/* La mini celda inspirada en el espacio de trabajo principal */
+.mini-matrix-cell {
+  width: 34px;
+  height: 34px;
+  background: #0F0F11;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #FAFAFA;
+}
+
+/* Bloque numérico plano para las líneas de desglose aritmético */
+.arithmetic-block {
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Línea de cierre del paso con el resultado parcial o final */
+.visual-equation-line:last-child {
+  color: var(--accent);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+/* Sub-paneles especiales para aislar el desglose de los menores en 4x4 */
+.minor-sub-panel {
+  background: rgba(34, 197, 94, 0.02) !important;
+  border-color: rgba(34, 197, 94, 0.12) !important;
+  box-shadow: 0 0 25px rgba(34, 197, 94, 0.03);
+}
+
+/* =========================================
+   DIAGONALES PARA MINIMATRICES 2x2
+   ========================================= */
+.mini-matrix-grid {
+    position: relative;
+}
+
+.diag-pos-2x2::after, .diag-neg-2x2::after {
+    content: '';
+    position: absolute;
+    width: 150%; 
+    height: 3px;
+    top: 50%;
+    left: 50%;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.diag-pos-2x2::after {
+    background: rgba(34, 197, 94, 0.8);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.diag-neg-2x2::after {
+    background: rgba(239, 68, 68, 0.8);
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ==========================================================================
+   ARITMÉTICA EMBELLECIDA — Pasos de multiplicación de cofactores
+   ========================================================================== */
+
+/* Fila que contiene los términos aritméticos (permite wrap en pantallas pequeñas) */
+.arith-terms-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+/* Fila de pills de resultado */
+.arith-pills-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+/* Línea de desglose — ajusta padding para dar aire */
+.arith-desglose-line {
+  padding: 0.4rem 0;
+  gap: 0.8rem !important;
+}
+
+.arith-pills-line {
+  padding: 0.4rem 0;
+  gap: 0.8rem !important;
+}
+
+/* Wrapper de cada término (conector + caja) */
+.arith-term-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* Conector entre términos: + o − */
+.arith-connector {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--muted);
+  user-select: none;
+}
+
+/* Signo negativo delante del primer término */
+.arith-connector-neg {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgba(239, 68, 68, 0.9);
+  user-select: none;
+}
+
+/* Caja de cada término aritmético */
+.arith-term {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  transition: box-shadow 0.25s ease;
+}
+
+.arith-term-pos {
+  background: rgba(34, 197, 94, 0.07);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.arith-term-neg {
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Número coeficiente dentro de la caja */
+.arith-coef {
+  font-weight: 700;
+  font-size: 1.1rem;
+  min-width: 14px;
+  text-align: center;
+  line-height: 1;
+}
+.coef-pos { color: #22C55E; }
+.coef-neg { color: #EF4444; }
+
+/* Punto de multiplicación */
+.arith-mul-dot {
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Interior del determinante 2×2: (a×d − b×c) */
+.arith-det-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.55rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+/* Los dos productos dentro del 2×2 */
+.det-product {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.det-product-a { color: rgba(34, 197, 94, 0.9); }
+.det-product-b { color: rgba(239, 68, 68, 0.85); }
+
+/* El símbolo − entre los dos productos */
+.det-op-sym {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* ── Pills de resultados parciales ── */
+.result-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.95rem;
+  border-radius: 24px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.result-pill-pos {
+  background: rgba(34, 197, 94, 0.13);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  color: #22C55E;
+}
+
+.result-pill-neg {
+  background: rgba(239, 68, 68, 0.13);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  color: #EF4444;
+}
+
+/* ── Línea del resultado final de cada sub-cálculo ── */
+.result-final-line {
+  margin-top: 0.25rem;
+}
+
+.result-value-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+/* ── Valor cero (caso degenerado) ── */
+.arith-zero {
+  color: var(--muted);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   CABECERA DE MENORES 4×4 — limpia, sin sintaxis de código
+   ========================================================================== */
+
+.minor-header-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* Fila con icono Δ + título del menor */
+.minor-badge-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 1.1rem;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(34, 197, 94, 0.04));
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 14px;
+  width: fit-content;
+}
+
+.minor-icon {
+  font-size: 1rem;
+  color: rgba(34, 197, 94, 0.7);
+  line-height: 1;
+}
+
+.minor-title {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Descripción secundaria del paso */
+.minor-desc {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Signo del cofactor en la descripción */
+.sign-pos {
+  color: #22C55E;
+  font-weight: 700;
+}
+
+.sign-neg {
+  color: #EF4444;
+  font-weight: 700;
+}
+
+/* ── Badge del determinante en la sustitución 4×4 ── */
+.subs-det-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: nowrap;
+}
+
+.subs-badge-pos {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.18);
+  color: rgba(34, 197, 94, 0.9);
+}
+
+.subs-badge-neg {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  color: rgba(239, 68, 68, 0.9);
+}
+
+.subs-det-badge b {
+  color: white;
+  font-weight: 700;
+}

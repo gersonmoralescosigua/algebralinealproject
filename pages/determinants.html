@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Determinantes | LinearAI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-  <title>Determinantes | LinearAI</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <link rel="stylesheet" href="../assets/css/determinants.css">
-</head>
+    <link rel="stylesheet" href="../assets/css/determinants.css">
+  </head>
 
 <body>
 
-<div class="app-layout">
-
+<div class="app-layout">  
   <aside class="sidebar">
     <div>
       <div class="logo-area">
         <div class="logo-box">∑</div>
-        <div>
-          <h1>LinearAI</h1>
-          <p>Workspace</p>
-        </div>
+          <div>
+            <h1>LinearAI</h1>
+            <p>Workspace</p>
+          </div>
       </div>
 
       <nav class="sidebar-nav">
-        <a href="../index.html" class="nav-item">⌂ Dashboard</a>
-        <a href="#" class="nav-item active-nav">Δ Determinantes</a>
+            <a href="../index.html" class="nav-item"><span>⌂</span> Dashboard</a>
+            <a href="./determinants.html" class="nav-item active-nav"><span>Δ</span> Determinantes</a>
+            <a href="./inverse.html" class="nav-item"><span>A⁻¹</span> Matriz Inversa</a>
+            <a href="./cramer.html" class="nav-item"><span>x</span> Regla de Cramer</a>
+            <a href="./help.html" class="nav-item"><span>?</span> Ayuda</a>
       </nav>
     </div>
   </aside>
-
+  
   <main class="main-content" x-data="determinantApp()">
 
     <div class="topbar">
@@ -171,7 +171,6 @@
         <span>Resultado Final</span>
         <h2 x-text="'det(A) = ' + result"></h2>
       </div>
-
     </div>
 
   </main>
