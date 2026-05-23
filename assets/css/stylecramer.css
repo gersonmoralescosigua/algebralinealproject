@@ -16,6 +16,33 @@
     --accent-dark: #16A34A;
     --error: #EF4444;
     --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    /* =========================
+    NUEVAS VARIABLES PRO UI
+    AGREGAR EN :root
+    ========================= */
+
+    --glass: rgba(255,255,255,0.03);
+    --glass-strong: rgba(255,255,255,0.06);
+
+    --accent-soft: rgba(34,197,94,0.15);
+
+    --blur: blur(18px);
+
+    --radius-xl: 28px;
+
+    --card-gradient:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.01)
+    );
+
+    --step-glow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 15px 35px rgba(0,0,0,0.45);
+
+    --green-glow:
+    0 0 25px rgba(34,197,94,0.12);
 }
 
 body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
@@ -55,41 +82,77 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
     margin-top: 2rem;
 }
 
+/* =========================
+   BOTONES MÁS PREMIUM
+   REEMPLAZAR .size-btn
+========================= */
+
 .size-btn {
-    padding: 0.9rem;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    background: var(--panel);
+    padding: 0.95rem 1.2rem;
+
+    border-radius: 16px;
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    background: rgba(255,255,255,0.03);
+
     color: var(--text);
+
     cursor: pointer;
+
     font-size: 0.95rem;
-    font-weight: 500;
+
+    font-weight: 600;
+
     transition: all 0.25s ease;
+
+    backdrop-filter: blur(12px);
+
+    position: relative;
+
+    overflow: hidden;
 }
 
 .size-btn:hover {
-    background: var(--panel-2);
-    border-color: var(--accent);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+
+    border-color: rgba(34,197,94,0.25);
+
+    box-shadow: var(--green-glow);
+
+    background: rgba(255,255,255,0.05);
 }
 
 .size-btn.active {
-    background: var(--accent);
-    color: black;
-    border-color: var(--accent);
+    background:
+    linear-gradient(
+        135deg,
+        #22C55E,
+        #16A34A
+    );
+
+    color: #000;
+
+    box-shadow:
+    0 10px 25px rgba(34,197,94,0.35);
 }
 
-
-
-
 /* =========================
-   MAIN CONTENT
+   MAIN CONTENT MÁS PREMIUM
+   REEMPLAZAR
 ========================= */
 
 .main-content {
     margin-left: 280px;
     width: calc(100% - 280px);
     padding: 2rem;
+
+    background:
+    radial-gradient(
+        circle at top right,
+        rgba(34,197,94,0.08),
+        transparent 30%
+    );
 }
 
 /* =========================
@@ -112,16 +175,45 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 }
 
 /* =========================
-   PANEL
+   PANELS APPLE STYLE
+   REEMPLAZAR .panel
 ========================= */
 
 .panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 1.25rem;
+    background: var(--card-gradient);
+
+    backdrop-filter: var(--blur);
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    border-radius: var(--radius-xl);
+
+    padding: 1.4rem;
+
     margin-bottom: 1.5rem;
-    box-shadow: var(--shadow);
+
+    box-shadow: var(--step-glow);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.panel::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.04),
+        transparent 40%
+    );
+
+    pointer-events: none;
 }
 
 .controls {
@@ -131,36 +223,50 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
     align-items: center;
 }
 
-#calcularBtn {
-    padding: 0.9rem 1.4rem;
-    border: none;
-    border-radius: 14px;
-    background: var(--accent);
-    color: black;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all 0.25s ease;
-}
+/* =========================
+   BOTONES CALCULAR/LIMPIAR
+   REEMPLAZAR AMBOS
+========================= */
 
-#calcularBtn:hover {
-    background: var(--accent-dark);
-    transform: translateY(-2px);
-}
-
+#calcularBtn,
 #limpiarBtn {
-    padding: 0.9rem 1.4rem;
-    border: none;
-    border-radius: 14px;
-    background: var(--accent);
+
+    padding: 0.95rem 1.5rem;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 16px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #22C55E,
+        #16A34A
+    );
+
     color: black;
+
     cursor: pointer;
-    font-weight: 700;
+
+    font-weight: 800;
+
+    letter-spacing: 0.3px;
+
     transition: all 0.25s ease;
+
+    box-shadow:
+    0 10px 30px rgba(34,197,94,0.25);
 }
 
+#calcularBtn:hover,
 #limpiarBtn:hover {
-    background: var(--accent-dark);
-    transform: translateY(-2px);
+
+    transform:
+    translateY(-3px)
+    scale(1.02);
+
+    box-shadow:
+    0 18px 40px rgba(34,197,94,0.35);
 }
 /* =========================
    MATRIZ
@@ -199,47 +305,120 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
    TABLAS
 ========================= */
 
+/* =========================
+   MATRIZ MÁS PRO
+   REEMPLAZAR table
+========================= */
+
 table {
-    border-collapse: collapse;
-    background: var(--panel-2);
-    border-radius: 16px;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+    background:
+    rgba(255,255,255,0.025);
+
+    backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    border-radius: 24px;
+
     overflow: hidden;
+
     min-width: max-content;
+
+    box-shadow: var(--step-glow);
 }
+
+/* =========================
+   TH Y TD MODERNOS
+   REEMPLAZAR
+========================= */
 
 th,
 td {
-    border: 1px solid var(--border);
-    padding: 12px;
+
+    border: 1px solid rgba(255,255,255,0.04);
+
+    padding: 14px 18px;
+
     text-align: center;
 }
 
 th {
-    background: var(--accent);
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(34,197,94,0.95),
+        rgba(22,163,74,0.95)
+    );
+
     color: black;
-    font-weight: 700;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+}
+
+td {
+    background: rgba(255,255,255,0.015);
 }
 
 /* =========================
-   INPUTS
+   INPUTS FUTURISTAS
+   REEMPLAZAR .matrix-input input
 ========================= */
 
 .matrix-input input {
-    width: 72px;
-    height: 52px;
+
+    width: 76px;
+
+    height: 58px;
+
     text-align: center;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
+
+    border-radius: 16px;
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.04),
+        rgba(255,255,255,0.015)
+    );
+
+    backdrop-filter: blur(10px);
+
+    color: white;
+
     font-size: 1rem;
-    transition: all 0.2s ease;
+
+    font-weight: 700;
+
+    transition: all 0.22s ease;
+}
+
+.matrix-input input:hover {
+
+    border-color:
+    rgba(34,197,94,0.25);
 }
 
 .matrix-input input:focus {
+
     outline: none;
+
+    transform: scale(1.04);
+
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+
+    box-shadow:
+    0 0 0 4px rgba(34,197,94,0.12),
+    0 0 20px rgba(34,197,94,0.18);
 }
 
 .equal {
@@ -315,22 +494,97 @@ th {
 }
 
 /* =========================
-   PASOS
+   STEPS MUCHO MÁS PRO
+   REEMPLAZAR .step
 ========================= */
 
 .step {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: 20px;
-    padding: 1.5rem;
-    animation: fadeIn 0.35s ease;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.035),
+        rgba(255,255,255,0.015)
+    );
+
+    backdrop-filter: blur(18px);
+
+    border:
+    1px solid rgba(255,255,255,0.05);
+
+    border-left:
+    4px solid var(--accent);
+
+    border-radius: 28px;
+
+    padding: 1.8rem;
+
+    animation: fadeIn 0.4s ease;
+
     overflow-x: auto;
+
+    box-shadow: var(--step-glow);
+
+    position: relative;
 }
 
+.step::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 1px;
+
+    background:
+    linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,0.15),
+        transparent
+    );
+}
+
+/* =========================
+   TÍTULOS DE PASOS
+   REEMPLAZAR .step h3
+========================= */
+
 .step h3 {
-    color: var(--accent);
+
+    color: white;
+
     margin-bottom: 1rem;
+
+    font-size: 1.15rem;
+
+    font-weight: 800;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.8rem;
+}
+
+.step h3::before {
+
+    content: "";
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 999px;
+
+    background: var(--accent);
+
+    box-shadow:
+    0 0 15px rgba(34,197,94,0.8);
 }
 
 .step p {
@@ -338,29 +592,89 @@ th {
     margin-bottom: 0.75rem;
 }
 
+/* =========================
+   PROCEDIMIENTOS BONITOS
+   REEMPLAZAR .step pre
+========================= */
+
 .step pre {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1rem;
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(0,0,0,0.45),
+        rgba(255,255,255,0.02)
+    );
+
+    border:
+    1px solid rgba(255,255,255,0.05);
+
+    border-radius: 20px;
+
+    padding: 1.25rem;
+
     overflow-x: auto;
+
     margin-top: 1rem;
+
+    color: #d4ffd4;
+
+    font-size: 0.95rem;
+
+    line-height: 1.8;
+
+    box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 /* =========================
    SOLUCIÓN Y ERROR
 ========================= */
 
+/* =========================
+   RESULTADO FINAL PRO
+   REEMPLAZAR .solution
+========================= */
+
 .solution {
-    background: rgba(34, 197, 94, 0.08);
-    border-color: rgba(34, 197, 94, 0.25);
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(34,197,94,0.16),
+        rgba(34,197,94,0.05)
+    );
+
+    border:
+    1px solid rgba(34,197,94,0.18);
+
+    box-shadow:
+    0 0 40px rgba(34,197,94,0.12);
 }
 
+/* =========================
+   ERROR MÁS CLEAN
+   REEMPLAZAR .error
+========================= */
+
 .error {
-    background: rgba(239, 68, 68, 0.08);
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(239,68,68,0.14),
+        rgba(239,68,68,0.05)
+    );
+
     border-left-color: var(--error);
-    border-color: rgba(239, 68, 68, 0.2);
-    color: #f87171;
+
+    border:
+    1px solid rgba(239,68,68,0.15);
+
+    color: #fca5a5;
+
+    box-shadow:
+    0 0 25px rgba(239,68,68,0.08);
 }
 
 /* =========================
@@ -460,3 +774,436 @@ th {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent);
 }
+
+/* =========================
+   MATRICES DE PROCEDIMIENTO
+========================= */
+
+.matrix-preview-table {
+
+    margin-top: 14px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    background:
+    rgba(255,255,255,0.02);
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+.matrix-preview-table td {
+
+    min-width: 70px;
+
+    font-weight: 700;
+
+    font-size: 1rem;
+
+    color: white;
+}
+
+.solution p strong {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    background:
+    rgba(255,255,255,0.05);
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
+    padding:
+    0.85rem 1.2rem;
+
+    border-radius: 16px;
+
+    margin-top: 0.7rem;
+
+    font-size: 1.05rem;
+
+    backdrop-filter: blur(10px);
+}
+
+.step,
+.panel,
+.matrix-visual-container,
+.step-card,
+.placeholder,
+.step-topbar {
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+}
+
+/* ==========================================================================
+   CRAMER — ARITMÉTICA EMBELLECIDA & COMPARACIÓN DE MATRICES
+   Añadir al final de stylecramer.css
+   ========================================================================== */
+
+/* ── Bloque contenedor del procedimiento ── */
+.arith-equation-block {
+    margin-top: 1.1rem;
+    padding: 1.4rem 1.5rem;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.arith-block-title {
+    font-size: 0.88rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.25rem;
+}
+
+/* ── Filas de la ecuación ── */
+.arith-line-row,
+.arith-result-row,
+.arith-subtraction-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.arith-eq-label {
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+    min-width: 48px;
+}
+
+.arith-op-sign {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--muted);
+    padding: 0 0.1rem;
+    user-select: none;
+}
+
+/* ── Pills de productos (2×2) ── */
+.cramer-prod-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 14px;
+    font-size: 0.92rem;
+    white-space: nowrap;
+}
+
+.cramer-pill-pos {
+    background: rgba(34, 197, 94, 0.09);
+    border: 1px solid rgba(34, 197, 94, 0.22);
+}
+
+.cramer-pill-neg {
+    background: rgba(239, 68, 68, 0.09);
+    border: 1px solid rgba(239, 68, 68, 0.22);
+}
+
+.prod-expr {
+    color: var(--muted);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.88rem;
+}
+
+.prod-sep {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.8rem;
+}
+
+.prod-val {
+    font-weight: 800;
+    font-size: 1rem;
+}
+.cramer-pill-pos .prod-val { color: #22C55E; }
+.cramer-pill-neg .prod-val { color: #EF4444; }
+
+/* ── Pills finales (resultado det) ── */
+.cramer-final-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem 1.1rem;
+    border-radius: 24px;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+}
+
+.cramer-result-pos {
+    background: rgba(34, 197, 94, 0.14);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22C55E;
+}
+
+.cramer-result-neg {
+    background: rgba(239, 68, 68, 0.14);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #EF4444;
+}
+
+/* ── Secciones de diagonales (3×3) ── */
+.diag-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.diag-section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.pos-section-label { color: rgba(34, 197, 94, 0.8); }
+.neg-section-label { color: rgba(239, 68, 68, 0.8); }
+
+.section-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.pos-dot { background: #22C55E; box-shadow: 0 0 8px rgba(34, 197, 94, 0.6); }
+.neg-dot { background: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.6); }
+
+.diag-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.cramer-diag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.75rem;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.diag-pos {
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.diag-neg {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.diag-expr {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.diag-eq {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.8rem;
+}
+
+.diag-val {
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+.diag-pos .diag-val { color: #22C55E; }
+.diag-neg .diag-val { color: #EF4444; }
+
+/* ── Pills de suma parcial ── */
+.cramer-sum-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.cramer-sum-pos {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.22);
+    color: #22C55E;
+}
+
+.cramer-sum-neg {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.22);
+    color: #EF4444;
+}
+
+/* ── Comparación de matrices ── */
+.matrix-comparison-wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 1.1rem 0;
+}
+
+.matrix-comp-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.matrix-comp-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.matrix-comp-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    align-self: center;
+    padding-top: 1.5rem;
+}
+
+.comp-arrow-symbol {
+    font-size: 1.8rem;
+    color: var(--accent);
+    line-height: 1;
+}
+
+.comp-arrow-caption {
+    font-size: 0.75rem;
+    color: rgba(34, 197, 94, 0.7);
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+}
+
+/* ── Fórmula de Cramer con fracción visual ── */
+.cramer-formula-display {
+    margin-top: 0.75rem;
+    padding: 1.2rem 1.4rem;
+    background: rgba(34, 197, 94, 0.04);
+    border: 1px solid rgba(34, 197, 94, 0.12);
+    border-radius: 18px;
+}
+
+.formula-equation {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.formula-var {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    min-width: 16px;
+}
+
+.formula-eq-sign {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--muted);
+}
+
+.formula-fraction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.frac-num {
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding-bottom: 6px;
+    white-space: nowrap;
+}
+
+.frac-num-pos { color: #22C55E; }
+.frac-num-neg { color: #EF4444; }
+
+.frac-line {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 2px;
+    min-width: 100px;
+}
+
+.frac-den {
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding-top: 6px;
+    white-space: nowrap;
+}
+
+.frac-den-pos { color: rgba(34, 197, 94, 0.8); }
+.frac-den-neg { color: rgba(239, 68, 68, 0.8); }
+
+.pill-large {
+    font-size: 1.35rem !important;
+    padding: 0.55rem 1.3rem !important;
+}
+
+/* ── Solución final estilizada ── */
+.final-solutions-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.1rem;
+}
+
+.final-solution-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.2rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+}
+
+.final-var {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+}
+
+.final-eq {
+    font-size: 1.1rem;
+    color: var(--muted);
+}
+
+.final-val {
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.final-val-pos { color: #22C55E; }
+.final-val-neg { color: #EF4444; }
