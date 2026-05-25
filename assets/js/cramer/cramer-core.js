@@ -1,8 +1,5 @@
 let currentSize = 2;
 
-// ==========================================
-// GENERAR MATRICES DINÁMICAS
-// ==========================================
 
 function renderInputs() {
     const section = document.getElementById('inputSection');
@@ -57,9 +54,6 @@ function renderInputs() {
     }
 }
 
-// ==========================================
-// MCD Y FRACCIÓN
-// ==========================================
 
 function gcd(a, b) {
     a = Math.abs(a); b = Math.abs(b);
@@ -76,9 +70,7 @@ function simplifyFraction(numerator, denominator) {
     return `${n}/${dd}`;
 }
 
-// ==========================================
-// DETERMINANTES
-// ==========================================
+
 
 function det2x2(m) {
     return m[0][0] * m[1][1] - m[0][1] * m[1][0];
@@ -215,69 +207,114 @@ function renderDet2x2HTML(m) {
 // RENDER — Determinante 3×3 embellecido (Sarrus)
 // ==========================================
 function renderDet3x3HTML(m) {
+
     const p1 = m[0][0] * m[1][1] * m[2][2];
     const p2 = m[0][1] * m[1][2] * m[2][0];
     const p3 = m[0][2] * m[1][0] * m[2][1];
+
     const n1 = m[0][2] * m[1][1] * m[2][0];
     const n2 = m[0][0] * m[1][2] * m[2][1];
     const n3 = m[0][1] * m[1][0] * m[2][2];
 
-    const posSum = p1 + p2 + p3;
-    const negSum = n1 + n2 + n3;
-    const total  = posSum - negSum;
+    const positive = p1 + p2 + p3;
+    const negative = n1 + n2 + n3;
 
-    const fmtVal = (v) => v < 0 ? String(v) : '+' + v;
-
-    const posPill = (val, expr) =>
-        `<div class="cramer-diag-pill diag-pos">
-            <span class="diag-expr">${expr}</span>
-            <span class="diag-eq">=</span>
-            <span class="diag-val">${fmtVal(val)}</span>
-        </div>`;
-
-    const negPill = (val, expr) =>
-        `<div class="cramer-diag-pill diag-neg">
-            <span class="diag-expr">${expr}</span>
-            <span class="diag-eq">=</span>
-            <span class="diag-val">${fmtVal(val)}</span>
-        </div>`;
-
-    const sumClass = (v) => v >= 0 ? 'cramer-sum-pos' : 'cramer-sum-neg';
-    const rClass   = total >= 0 ? 'cramer-result-pos' : 'cramer-result-neg';
+    const det = positive - negative;
 
     return `
-        <div class="arith-equation-block">
-            <div class="diag-section">
-                <span class="diag-section-label pos-section-label">
-                    <span class="section-dot pos-dot"></span>
+
+    <div class="sarrus-container">
+
+        <div class="sarrus-left">
+
+            <div>
+                <h4 class="sarrus-positive-title">
                     Diagonales positivas ↘
-                </span>
-                <div class="diag-pills-row">
-                    ${posPill(p1, `${m[0][0]}·${m[1][1]}·${m[2][2]}`)}
-                    ${posPill(p2, `${m[0][1]}·${m[1][2]}·${m[2][0]}`)}
-                    ${posPill(p3, `${m[0][2]}·${m[1][0]}·${m[2][1]}`)}
+                </h4>
+
+                <div class="operation-line operation-positive">
+                    <div>${m[0][0]} × ${m[1][1]} × ${m[2][2]}</div>
+                    <span>${p1}</span>
+                </div>
+
+                <div class="operation-line operation-positive">
+                    <div>${m[0][1]} × ${m[1][2]} × ${m[2][0]}</div>
+                    <span>${p2}</span>
+                </div>
+
+                <div class="operation-line operation-positive">
+                    <div>${m[0][2]} × ${m[1][0]} × ${m[2][1]}</div>
+                    <span>${p3}</span>
                 </div>
             </div>
-            <div class="diag-section">
-                <span class="diag-section-label neg-section-label">
-                    <span class="section-dot neg-dot"></span>
+
+            <div>
+                <h4 class="sarrus-negative-title">
                     Diagonales negativas ↙
-                </span>
-                <div class="diag-pills-row">
-                    ${negPill(n1, `${m[0][2]}·${m[1][1]}·${m[2][0]}`)}
-                    ${negPill(n2, `${m[0][0]}·${m[1][2]}·${m[2][1]}`)}
-                    ${negPill(n3, `${m[0][1]}·${m[1][0]}·${m[2][2]}`)}
+                </h4>
+
+                <div class="operation-line operation-negative">
+                    <div>${m[0][2]} × ${m[1][1]} × ${m[2][0]}</div>
+                    <span>${n1}</span>
+                </div>
+
+                <div class="operation-line operation-negative">
+                    <div>${m[0][0]} × ${m[1][2]} × ${m[2][1]}</div>
+                    <span>${n2}</span>
+                </div>
+
+                <div class="operation-line operation-negative">
+                    <div>${m[0][1]} × ${m[1][0]} × ${m[2][2]}</div>
+                    <span>${n3}</span>
                 </div>
             </div>
-            <div class="arith-subtraction-row">
-                <span class="arith-eq-label">det =</span>
-                <div class="cramer-sum-pill ${sumClass(posSum)}">(${fmtVal(posSum)})</div>
-                <span class="arith-op-sign">−</span>
-                <div class="cramer-sum-pill cramer-sum-neg">(${fmtVal(negSum)})</div>
-                <span class="arith-op-sign">=</span>
-                <div class="cramer-final-pill ${rClass}">${total}</div>
+
+            <div class="final-determinant">
+                det(A) = (${positive}) - (${negative})
+                =
+                <strong>${det}</strong>
             </div>
-        </div>`;
+
+        </div>
+
+        <div class="sarrus-visual">
+
+            <div class="matrix-grid">
+
+                ${[0,1,2].map(r => `
+                    ${[0,1,2].map(c => `
+                        <div class="matrix-cell main">
+                            ${m[r][c]}
+                        </div>
+                    `).join('')}
+
+                    ${[0,1].map(c => `
+                        <div class="matrix-cell copy">
+                            ${m[r][c]}
+                        </div>
+                    `).join('')}
+                `).join('')}
+
+                <svg class="diagonal-overlay" viewBox="0 0 500 300">
+
+                    <!-- positivas -->
+                    <line x1="55" y1="45" x2="250" y2="245" class="diag-pos"/>
+                    <line x1="155" y1="45" x2="350" y2="245" class="diag-pos"/>
+                    <line x1="255" y1="45" x2="450" y2="245" class="diag-pos"/>
+
+                    <!-- negativas -->
+                    <line x1="255" y1="45" x2="55" y2="245" class="diag-neg"/>
+                    <line x1="355" y1="45" x2="155" y2="245" class="diag-neg"/>
+                    <line x1="455" y1="45" x2="255" y2="245" class="diag-neg"/>
+
+                </svg>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
 }
 
 // ==========================================

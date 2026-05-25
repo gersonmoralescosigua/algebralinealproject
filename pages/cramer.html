@@ -4,138 +4,303 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+    <title>Determinantes | LinearAI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-
-    <title>Calculadora Regla de Cramer</title>
-
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/stylecramer.css">
 </head>
 
 <body>
 
-<div class="app-layout">
-    <aside class="sidebar">
-        <div>
-        <div class="logo-area">
-            <div class="logo-box">∑</div>
-            <div>
-            <h1>LinearAI</h1>
-            <p>Workspace</p>
-            </div>
-        </div>
+    <!-- BACKGROUND FX -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="grid-overlay"></div>
 
-        <nav class="sidebar-nav">
-            <a href="../index.html" class="nav-item"><span>⌂</span> Dashboard</a>
-            <a href="./determinants.html" class="nav-item"><span>Δ</span> Determinantes</a>
-            <a href="./inverse.html" class="nav-item"><span>A⁻¹</span> Matriz Inversa</a>
-            <a href="./cramer.html" class="nav-item active-nav"><span>x</span> Regla de Cramer</a>
-            <a href="./help.html" class="nav-item"><span>?</span> Ayuda</a>
-        </nav>
-        </div>
-    </aside>
+    <div class="app-layout">
 
-    <main class="main-content">
-        <div class="topbar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
 
             <div>
-                <h2>Regla de Cramer</h2>
 
-                <p>
-                    Resolución paso a paso
-                </p>
-            </div>
-
-        </div>
-
-        <!-- WORKSPACE -->
-        <div class="workspace-grid">
-
-            <!-- MATRICES -->
-            <div class="matrix-workspace">
-
-                <div class="panel">
-
-                    <div class="controls">
-
-                        <button class="size-btn active" data-size="2">
-                            Sistema 2x2
-                        </button>
-
-                        <button class="size-btn" data-size="3">
-                            Sistema 3x3
-                        </button>
-
-                        <button id="calcularBtn">
-                            Resolver Sistema
-                        </button>
-
-                        <button id="limpiarBtn">
-                             Limpiar
-                        </button>
-
-                    </div>
-
+                <!-- LOGO -->
+                <div class="logo-area">
+                    <div class="logo-box">∑</div>
+                <div>
+                 <h1>LinearAI</h1>
+                     <p>Workspace</p>
+                 </div>
                 </div>
 
-                <!-- INPUTS -->
-                <div class="matrix-visual-container">
+                <!-- NAV -->
+                <nav class="sidebar-nav">
 
-                    <div class="matrix-visual">
+                    <a href="../index.html" class="nav-item">
+                        <span>⌂</span>
+                        <span>Dashboard</span>
+                    </a>
 
-                        <div id="inputSection"></div>
+                    <a href="./determinants.html" class="nav-item">
+                        <span>Δ</span>
+                        <span>Determinantes</span>
+                    </a>
 
-                    </div>
+                    <a href="./inverse.html" class="nav-item">
+                        <span>A⁻¹</span>
+                        <span>Matriz Inversa</span>
+                    </a>
 
-                </div>
+                    <a href="./cramer.html" class="nav-item active-nav">
+                        <span>x</span>
+                        <span>Regla de Cramer</span>
+                    </a>
+
+                    <a href="./help.html" class="nav-item">
+                        <span>?</span>
+                        <span>Ayuda</span>
+                    </a>
+
+                </nav>
 
             </div>
 
-            <!-- DETALLES -->
-            <div class="steps-workspace">
+            
 
-                <div class="step-topbar">
-                    <h3>Detalles del Cálculo</h3>
-                </div>
+        </aside>
 
-                <div class="step-card">
+        <!-- MAIN -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <div class="topbar">
+
+                <div>
+
+                    <h2>
+                        Regla de Cramer
+                    </h2>
 
                     <p>
-                        Ingresa los valores del sistema y presiona
-                        "Resolver Sistema" para desplegar el procedimiento
-                        completo paso a paso.
+                        Resolución visual e interactiva de sistemas lineales 2×2 y 3×3.
                     </p>
 
                 </div>
+               
+            </div>
+
+            <!-- GRID -->
+            <div class="workspace-grid">
+
+                <!-- LEFT -->
+                <section class="matrix-workspace">
+
+                    <!-- CONTROLS -->
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Configuración del Sistema</h3>
+                                <p>
+                                    Selecciona el tamaño del sistema y ejecuta el cálculo.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="controls">
+
+                            <button class="size-btn active" data-size="2">
+                                Sistema 2×2
+                            </button>
+
+                            <button class="size-btn" data-size="3">
+                                Sistema 3×3
+                            </button>
+
+                            <button id="calcularBtn">
+                                Resolver Sistema
+                            </button>
+
+                            <button id="limpiarBtn">
+                                Limpiar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- MATRIX INPUT -->
+                    <div class="matrix-visual-container">
+
+                        <div class="matrix-header">
+
+                            <div>
+                                <h3>Matriz de Entrada</h3>
+                                <p>
+                                    Introduce los coeficientes y términos independientes.
+                                </p>
+                            </div>
+
+                            <div class="matrix-badge">
+                                Interactive Matrix
+                            </div>
+
+                        </div>
+
+                        <div class="matrix-visual">
+
+                            <div id="inputSection"></div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- RIGHT -->
+                <aside class="steps-workspace">
+
+                    <div class="step-topbar">
+
+                        <div>
+                            <h3>Detalles del Cálculo</h3>
+
+                            <p>
+                                Vista previa del procedimiento matemático.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="step-card">
+
+                        <div class="info-icon">
+                            ✦
+                        </div>
+
+                        <p>
+                            Este módulo utiliza la Regla de Cramer para resolver
+                            sistemas lineales mediante determinantes.
+                        </p>
+
+                        <ul class="feature-list">
+
+                            <li>
+                                <span>✓</span>
+                                Procedimiento paso a paso
+                            </li>
+
+                            <li>
+                                <span>✓</span>
+                                Visualización de matrices
+                            </li>
+
+                            <li>
+                                <span>✓</span>
+                                Determinantes detallados
+                            </li>
+
+                            <li>
+                                <span>✓</span>
+                                Resultados simplificados
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="mini-stats-grid">
+
+                        <div class="mini-stat-card">
+                            <span class="mini-stat-number">Δ</span>
+                            <span class="mini-stat-label">Determinante Principal</span>
+                        </div>
+
+                        <div class="mini-stat-card">
+                            <span class="mini-stat-number">Δx</span>
+                            <span class="mini-stat-label">Variable X</span>
+                        </div>
+
+                        <div class="mini-stat-card">
+                            <span class="mini-stat-number">Δy</span>
+                            <span class="mini-stat-label">Variable Y</span>
+                        </div>
+
+                        <div class="mini-stat-card">
+                            <span class="mini-stat-number">Δz</span>
+                            <span class="mini-stat-label">Variable Z</span>
+                        </div>
+
+                    </div>
+
+                </aside>
 
             </div>
 
-        </div>
+            <!-- DIVIDER -->
+            <div class="section-divider">
 
-        <!-- DIVIDER -->
-        <hr class="step-section-divider">
+                <span>
+                    Procedimiento Matemático
+                </span>
 
-        <!-- RESULTADOS -->
-        <div class="detailed-steps-list">
+            </div>
 
-            <div id="resultSection">
+            <!-- RESULTS -->
+            <section class="results-wrapper">
 
-                <div class="placeholder">
-                    Aquí se mostrarán los pasos detallados para la resolución del sistema.
+                <div class="results-header">
+
+                    <div>
+                        <h3>Resolución Paso a Paso</h3>
+
+                        <p>
+                            Aquí aparecerá el desarrollo completo del sistema.
+                        </p>
+                    </div>
+
                 </div>
 
-            </div>
+                <div class="detailed-steps-list">
 
-        </div>
+                    <div id="resultSection">
 
-    </main>
+                        <div class="placeholder">
 
-</div>
+                            <div class="placeholder-icon">
+                                ∑
+                            </div>
 
-<script src="../assets/js/cramer/cramer-core.js"></script>
+                            <h4>
+                                Esperando cálculo
+                            </h4>
+
+                            <p>
+                                Presiona “Resolver Sistema” para generar
+                                automáticamente el procedimiento completo.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- JS -->
+    <script src="../assets/js/cramer/cramer-core.js"></script>
 
 </body>
 </html>
