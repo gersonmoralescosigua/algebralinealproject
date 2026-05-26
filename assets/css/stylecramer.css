@@ -16,10 +16,6 @@
     --accent-dark: #16A34A;
     --error: #EF4444;
     --shadow: 0 10px 30px rgba(0,0,0,0.35);
-    /* =========================
-    NUEVAS VARIABLES PRO UI
-    AGREGAR EN :root
-    ========================= */
 
     --glass: rgba(255,255,255,0.03);
     --glass-strong: rgba(255,255,255,0.06);
@@ -45,19 +41,7 @@
     0 0 25px rgba(34,197,94,0.12);
 }
 
-body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
-
-/* =========================
-   LAYOUT GENERAL
-========================= */
-
 .app-layout { display:flex; min-height:100vh; }
-
-/* =========================
-   SIDEBAR
-========================= */
-
-.sidebar { width:260px; background:var(--sidebar); border-right:1px solid var(--border); padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between; position:fixed; left:0; top:0; bottom:0; }
 
 .logo-area { display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
 

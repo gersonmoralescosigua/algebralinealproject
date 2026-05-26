@@ -6,10 +6,8 @@
   --accent:#22C55E; --shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
-body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
-
 .app-layout { display:flex; min-height:100vh; }
-.sidebar { width:260px; background:var(--sidebar); border-right:1px solid var(--border); padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between; position:fixed; left:0; top:0; bottom:0; }
+/*.sidebar { width:260px; background:var(--sidebar); border-right:1px solid var(--border); padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between; position:fixed; left:0; top:0; bottom:0; } */
 .logo-area { display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
 .logo-box { width:50px; height:50px; border-radius:14px; background:linear-gradient(135deg, #22C55E, #16A34A); display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:700; box-shadow: 0 10px 25px rgba(34,197,94,0.25); }
 .logo-area h1 { font-size:1rem; font-weight:700; }
@@ -27,19 +25,100 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 /* WORKSPACE & CONTROLS */
 .workspace-grid { display:grid; grid-template-columns:1.2fr 0.8fr; gap:2rem; }
 .panel { background:var(--panel); border:1px solid var(--border); padding:1.5rem; border-radius:20px; margin-bottom:2rem; }
-.controls { display:flex; gap:1rem; margin-bottom:1.5rem; }
-.controls select, .controls button { background:var(--panel-2); border:1px solid var(--border); padding:0.7rem 1rem; border-radius:10px; color:white; cursor:pointer;}
+.controls { 
+  display: flex; 
+  gap: 1rem; 
+  margin-bottom: 1.5rem; 
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controls select, 
+.controls button { 
+  background: var(--panel-2); 
+  border: 1px solid var(--border); 
+  padding: 0.9rem 1.4rem; /* Aumentamos el relleno para hacerlos más grandes */
+  border-radius: 14px; /* Bordes un poco más suaves */
+  font-size: 1.1rem; /* Texto más grande y legible */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.controls select:hover, 
+.controls button:hover {
+  border-color: var(--accent);
+}
 
 /* MATRIX VISUALS */
 .matrix-workspace { display:flex; flex-direction:column; gap:1.5rem; }
-.matrix-visual-container { position:relative; background:var(--panel); border:1px solid var(--border); border-radius:28px; padding:4rem; display:flex; justify-content:center; align-items:center; min-height:420px; overflow:hidden; }
+.matrix-visual-container { 
+  position: relative; 
+  background: var(--panel); 
+  border: 1px solid var(--border); 
+  border-radius: 28px; 
+  padding: 3rem 4rem; /* Reducimos el padding excesivo */
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  min-height: auto; /* Eliminamos el alto fijo gigante para que abrace a la matriz */
+  overflow: hidden; 
+  transition: all 0.4s ease; /* Transición fluida al cambiar de tamaño */
+}
+
+.matrix-bracket { 
+  position: absolute; 
+  width: 25px; 
+  top: 1.5rem; 
+  bottom: 1.5rem; 
+  transition: all 0.4s ease;
+}
+
+.left-bracket { left: 1.5rem; border-left: 4px solid rgba(255,255,255,0.8); border-top: 4px solid rgba(255,255,255,0.8); border-bottom: 4px solid rgba(255,255,255,0.8); }
+.right-bracket { right: 1.5rem; border-right: 4px solid rgba(255,255,255,0.8); border-top: 4px solid rgba(255,255,255,0.8); border-bottom: 4px solid rgba(255,255,255,0.8); }
+
 .matrix-visual { display:flex; flex-direction:column; gap:1rem; }
 .matrix-row { display:flex; gap:1rem; }
-.matrix-cell { width:80px; height:80px; border-radius:20px; background:#0f0f11; border:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; transition:0.4s ease; position: relative;}
-.matrix-cell input { width:100%; height:100%; background:transparent; border:none; text-align:center; color:white; font-size:1.3rem; font-weight:600; outline:none; position: relative; z-index: 10; padding: 0;}
+.matrix-cell { 
+  border-radius: 20px; 
+  background: #0f0f11; 
+  border: 1px solid rgba(255,255,255,0.05); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  transition: all 0.4s ease; 
+  position: relative;
+}
+
+.matrix-cell input { 
+  width: 100%; 
+  height: 100%; 
+  background: transparent; 
+  border: none; 
+  text-align: center; 
+  color: white; 
+  font-weight: 600; 
+  outline: none; 
+  position: relative; 
+  z-index: 10; 
+  padding: 0;
+  transition: all 0.4s ease;
+}
+
 .matrix-cell input::-webkit-outer-spin-button, .matrix-cell input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-/* SARRUS ELEMENTS */
+/* Nuevas clases que controlan el tamaño de celda y fuente */
+.size-2-cell { width: 120px; height: 120px; }
+.size-2-cell input { font-size: 2.5rem; }
+
+.size-3-cell { width: 85px; height: 85px; }
+.size-3-cell input { font-size: 1.6rem; }
+
+.size-4-cell { width: 65px; height: 65px; }
+.size-4-cell input { font-size: 1.2rem; }
+
+.read-only-cell { width: 65px !important; height: 65px !important; border-radius: 14px !important; }
+
 .sarrus-line-pos::after { content: ''; position: absolute; width: 340%; height: 4px; background: rgba(34, 197, 94, 0.8); top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg); z-index: 2; border-radius: 4px; pointer-events: none; }
 .sarrus-line-neg::after { content: ''; position: absolute; width: 340%; height: 4px; background: rgba(239, 68, 68, 0.8); top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); z-index: 1; border-radius: 4px; pointer-events: none; }
 .sarrus-line-both::before, .sarrus-line-both::after { content: ''; position: absolute; width: 340%; height: 4px; top: 50%; left: 50%; z-index: 1; border-radius: 4px; pointer-events: none; }

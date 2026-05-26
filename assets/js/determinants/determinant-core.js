@@ -186,9 +186,6 @@ function determinantApp() {
       return det;
     },
 
-    // ─────────────────────────────────────────────────────────────────
-    // HELPER: Build a styled arithmetic desglose term for 2x2 breakdown
-    // ─────────────────────────────────────────────────────────────────
     buildDesgloseTermHTML(effectiveCoeff, subM, isFirst) {
       let a = subM[0][0], b = subM[0][1], cc = subM[1][0], d = subM[1][1];
       let isCoeffPos = effectiveCoeff >= 0;
@@ -220,9 +217,6 @@ function determinantApp() {
       `;
     },
 
-    // ─────────────────────────────────────────────────────────────────
-    // HELPER: Build a colored result pill
-    // ─────────────────────────────────────────────────────────────────
     buildResultPillHTML(termValue, isFirst) {
       let isPos = termValue >= 0;
       let display = isFirst
@@ -231,9 +225,6 @@ function determinantApp() {
       return `<div class="result-pill ${isPos ? 'result-pill-pos' : 'result-pill-neg'}">${display}</div>`;
     },
 
-    // ─────────────────────────────────────────────────────────────────
-    // CÁLCULO PRINCIPAL
-    // ─────────────────────────────────────────────────────────────────
     calculate() {
       this.resetState();
       let m = this.matrix.map(row => row.map(val => Number(val)));
@@ -269,7 +260,7 @@ function determinantApp() {
 
     calculate2x2(m) {
       let det = (m[0][0] * m[1][1]) - (m[0][1] * m[1][0]);
-      this.steps.push(`Para matrices 2×2 aplicamos la definición:<br>det A = (a₁₁ × a₂₂) − (a₁₂ × a₂₁)<br>det A = (${m[0][0]} × ${m[1][1]}) − (${m[0][1]} × ${m[1][0]})`);
+      this.steps.push(`Para matrices 2×2 aplicamos la definición <br>det A = (a₁₁ × a₂₂) − (a₁₂ × a₂₁)<br>det A = (${m[0][0]} × ${m[1][1]}) − (${m[0][1]} × ${m[1][0]})`);
       this.result = det;
     },
 
@@ -292,9 +283,9 @@ function determinantApp() {
       let neg1 = c*e*g, neg2 = a*f*h, neg3 = b*d*i;
 
       this.steps = [
-        `<b>Multiplicamos las diagonales positivas (izquierda a derecha):</b><br>D₁ = (${a} × ${e} × ${i}) = ${pos1}<br>D₂ = (${b} × ${f} × ${g}) = ${pos2}<br>D₃ = (${c} × ${d} × ${h}) = ${pos3}`,
-        `<b>Multiplicamos las diagonales negativas (derecha a izquierda):</b><br>D₄ = (${c} × ${e} × ${g}) = ${neg1}<br>D₅ = (${a} × ${f} × ${h}) = ${neg2}<br>D₆ = (${b} × ${d} × ${i}) = ${neg3}`,
-        `<b>Sumamos las positivas y restamos las negativas:</b><br>det = (${pos1} + ${pos2} + ${pos3}) − (${neg1} + ${neg2} + ${neg3})`
+        `<b>Multiplicamos las diagonales positivas de izquierda a derecha</b><br>D₁ = (${a} × ${e} × ${i}) = ${pos1}<br>D₂ = (${b} × ${f} × ${g}) = ${pos2}<br>D₃ = (${c} × ${d} × ${h}) = ${pos3}`,
+        `<b>Multiplicamos las diagonales negativas de derecha a izquierda</b><br>D₄ = (${c} × ${e} × ${g}) = ${neg1}<br>D₅ = (${a} × ${f} × ${h}) = ${neg2}<br>D₆ = (${b} × ${d} × ${i}) = ${neg3}`,
+        `<b>Sumamos las positivas y restamos las negativas</b><br>det = (${pos1} + ${pos2} + ${pos3}) − (${neg1} + ${neg2} + ${neg3})`
       ];
 
       this.visualSteps = [
@@ -318,18 +309,14 @@ function determinantApp() {
       this.result = (pos1 + pos2 + pos3) - (neg1 + neg2 + neg3);
     },
 
-    // ─────────────────────────────────────────────────────────────────
-    // CONTROLADOR COFACTORES
-    // ─────────────────────────────────────────────────────────────────
     calculateCofactors(m) {
       let best = this.findBestExpansion(m);
       let isRow = best.type === 'row';
       let idx = best.index;
 
       this.steps.push(
-        `<p><b>Paso 1: Seleccionar la mejor ruta</b><br>
-        Analizando la matriz, la <b>${isRow ? 'fila' : 'columna'} ${idx + 1}</b> es la más óptima para expandir.
-        El motor ha elegido esta ubicación porque minimiza la complejidad de las operaciones priorizando ceros y valores absolutos pequeños.</p>`
+        `<p><b>Seleccionar la mejor ruta</b><br>
+        Analizando la matriz, la <b>${isRow ? 'fila' : 'columna'} ${idx + 1}</b> es la más óptima para expandir.</p>`
       );
 
       if (this.size === 3) {
@@ -339,9 +326,6 @@ function determinantApp() {
       }
     },
 
-    // ─────────────────────────────────────────────────────────────────
-    // DESGLOSE 3×3 — versión embelecida
-    // ─────────────────────────────────────────────────────────────────
     expand3x3(m, name = "A", isMain = true) {
       let best = this.findBestExpansion(m);
       let isRow = best.type === 'row';
@@ -380,7 +364,6 @@ function determinantApp() {
         termsData.push({ effectiveCoeff, subM, termValue });
       }
 
-      // ── Línea de desglose (multiplicaciones 2×2 estilizadas) ──
       let desgloseTerms = [];
       let resultPills = [];
 
@@ -431,7 +414,7 @@ function determinantApp() {
 
       if (isMain) {
         this.steps.push(
-          `<p><b>Paso 2: Expansión por cofactores — menores 2×2</b><br>
+          `<p><b>Expansión por cofactores, menores 2×2</b><br>
           Sustituimos los determinantes de las submatrices eliminando la fila y columna de cada pivote:</p>
           ${htmlStr}`
         );
@@ -444,9 +427,6 @@ function determinantApp() {
       return finalDet;
     },
 
-    // ─────────────────────────────────────────────────────────────────
-    // DESGLOSE 4×4 — sin LaTeX, con cabeceras limpias
-    // ─────────────────────────────────────────────────────────────────
     expand4x4(m) {
       let best = this.findBestExpansion(m);
       let isRow = best.type === 'row';
@@ -477,7 +457,6 @@ function determinantApp() {
           </div>
         `);
 
-        // Nombre del menor: HTML limpio con <sub>, sin LaTeX ni llaves
         let minorName = `M<sub>${r + 1}${c + 1}</sub>`;
 
         subCalculations.push({
@@ -495,7 +474,6 @@ function determinantApp() {
         partsPlanteamiento = ['<span class="arith-zero">0</span>'];
       }
 
-      // Paso 2: Planteamiento estructural
       let htmlPlanteamiento = `<div class="visual-equation-container">
         <div class="visual-equation-line">
           <span class="equation-label">det(A) =</span>
@@ -504,8 +482,8 @@ function determinantApp() {
       </div>`;
 
       this.steps.push(
-        `<p><b>Paso 2: Planteamiento de la expansión estructural</b><br>
-        Descomponemos la matriz 4×4 en sus menores de 3×3, uno por cada pivote de la fila/columna seleccionada:</p>
+        `<p><b>Planteamiento de la expansión estructural</b><br>
+        Descomponemos la matriz 4×4 en sus menores de 3×3, uno por cada pivote de la fila y columna seleccionada</p>
         ${htmlPlanteamiento}`
       );
 
@@ -521,7 +499,7 @@ function determinantApp() {
             <p class="minor-desc">
               Calculamos el determinante de esta submatriz de 3×3 eliminando la fila y columna del pivote
               <b>${sub.val < 0 ? '(' + sub.val + ')' : sub.val}</b>.
-              Signo del cofactor: <span class="${sub.sign === 1 ? 'sign-pos' : 'sign-neg'}">${sub.sign === 1 ? '+1' : '−1'}</span>
+              El signo del cofactor es <span class="${sub.sign === 1 ? 'sign-pos' : 'sign-neg'}">${sub.sign === 1 ? '+1' : '−1'}</span>
             </p>
           </div>
         `);
@@ -575,7 +553,7 @@ function determinantApp() {
         <div class="visual-equation-container">
           <p style="margin-bottom:1.25rem;">
             <b>Sustitución de los determinantes calculados</b><br>
-            Reemplazamos cada menor con su valor numérico en la ecuación de expansión:
+            Reemplazamos cada menor con su valor numérico en la ecuación de expansión
           </p>
 
           <div class="visual-equation-line arith-desglose-line">

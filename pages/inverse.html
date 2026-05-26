@@ -7,6 +7,8 @@
     <title>Matriz Inversa | LinearAI</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="../assets/css/inversa.css" />
 
     <script
       defer
@@ -32,9 +34,6 @@
       defer
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
     ></script>
-
-    <link rel="stylesheet" href="../assets/css/styles.css" />
-    <link rel="stylesheet" href="../assets/css/inversa.css" />
   </head>
 
   <body>
@@ -44,17 +43,17 @@
           <div class="logo-area">
             <div class="logo-box">∑</div>
             <div>
-              <h1>LinearAI</h1>
-              <p>Workspace</p>
+              <h1>Calculadora</h1>
+              <p>Regla de inversa</p>
             </div>
           </div>
 
           <nav class="sidebar-nav">
-              <a href="../index.html" class="nav-item"><span>⌂</span> Dashboard</a>
+              <a href="../index.html" class="nav-item"><span>⌂</span> Inicio</a>
               <a href="./determinants.html" class="nav-item"><span>Δ</span> Determinantes</a>
               <a href="./inverse.html" class="nav-item active-nav"><span>A⁻¹</span> Matriz Inversa</a>
               <a href="./cramer.html" class="nav-item"><span>x</span> Regla de Cramer</a>
-              <a href="./help.html" class="nav-item"><span>?</span> Ayuda</a>
+              <a href="./help.html" class="nav-item"><span>?</span> Aprendizaje</a>
           </nav>
         </div>
       </aside>
@@ -71,32 +70,57 @@
           </div>
         </div>
 
-        <div class="panel">
-          <div class="controls">
-            <select x-model="size" @change="generateMatrix()">
-              <option value="2">2x2</option>
-              <option value="3">3x3</option>
-              <option value="4">4x4</option>
-            </select>
+        <div style="max-width: 850px; margin: 0 auto; width: 100%;">
+          
+          <div class="matrix-workspace">
+            <div class="panel">
+              <div class="controls" style="justify-content: center;">
+                <select x-model.number="size" @change="generateMatrix()">
+                  <option value="2">2x2</option>
+                  <option value="3">3x3</option>
+                  <option value="4">4x4</option>
+                </select>
 
-            <button @click="generateMatrix()">Generar</button>
-            <button @click="calculate()">Calcular</button>
-          </div>
+                <button @click="generateMatrix()">Limpiar</button>
+                
+                <button @click="calculate(); setTimeout(() => { document.getElementById('steps-start').scrollIntoView({behavior: 'smooth', block: 'start'}) }, 150)">
+                  Calcular
+                </button>
+              </div>
+            </div>
 
-          <div class="matrix-grid">
-            <template x-for="(row, i) in matrix">
-              <div class="matrix-row">
-                <template x-for="(cell, j) in row">
-                  <input type="number" x-model="matrix[i][j]" />
+            <div class="matrix-visual-container">
+              <div class="matrix-bracket left-bracket"></div>
+              <div class="matrix-bracket right-bracket"></div>
+              
+              <div class="matrix-visual">
+                <template x-for="(row, i) in matrix" :key="'row-'+i">
+                  <div class="matrix-row">
+                    <template x-for="(cell, j) in row" :key="'cell-'+i+'-'+j">
+                      <div class="matrix-cell" :class="'size-' + size + '-cell'">
+                        <input type="number" x-model.number="matrix[i][j]" />
+                      </div>
+                    </template>
+                  </div>
                 </template>
               </div>
-            </template>
+            </div>
           </div>
+
+          <div x-show="steps.length > 0" style="margin-top: 2rem; text-align: center; padding: 1.5rem; background: var(--panel); border: 1px solid var(--border); border-radius: 20px; animation: fadeIn 0.4s ease;">
+            <h4 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1.2rem;">
+              Método de resolución: <span>Cofactores y Matriz Adjunta</span>
+            </h4>
+            <p style="color: var(--muted);">El procedimiento paso a paso ha sido generado. Utiliza los controles inferiores para navegar entre los cálculos.</p>
+          </div>
+
         </div>
+
+        <hr id="steps-start" x-show="steps.length > 0" style="margin: 3rem 0; border: none; border-top: 2px dashed rgba(255, 255, 255, 0.1);">
 
         <div class="result-panel" x-show="steps.length > 0">
           <div class="step-header">
-            <h3 x-text="steps[currentStep]?.title || 'Paso'"></h3>
+            <h3 x-text="steps[currentStep]?.title || 'Paso'" class="text-xl font-bold text-white"></h3>
 
             <div
               class="step-controls"
@@ -114,7 +138,6 @@
             </div>
           </div>
 
-          <!-- ===== PASO 1: DETERMINANTE ===== -->
           <template x-if="steps[currentStep]?.type === 'determinant'">
             <div class="step-item">
               <p x-text="steps[currentStep]?.explanation"></p>
@@ -136,7 +159,6 @@
                 x-html="steps[currentStep]?.minorsLatex"
               ></div>
 
-              <!-- Visuales de Sarrus extendido para 4x4 -->
               <template x-if="steps[currentStep]?.sarrusVisuals">
                 <div class="mt-4">
                   <p class="text-green-400 font-semibold mb-3">
@@ -184,7 +206,6 @@
             </div>
           </template>
 
-          <!-- ===== PASO 2: COFACTORES ===== -->
           <template x-if="steps[currentStep]?.type === 'cofactors'">
             <div class="step-item">
               <p x-html="steps[currentStep].formula"></p>
@@ -198,14 +219,13 @@
                         x-text="item.label"
                       ></strong>
 
-                      <!-- Submatriz 3x3 (solo cuando NO es sarrusHtml, es decir 2x2 y 3x3 originales) -->
                       <template x-if="!item.sarrusHtml">
                         <div>
                           <div class="matrix-result">
                             <template x-for="r in item.matrix">
                               <div class="matrix-row">
                                 <template x-for="c in r">
-                                  <div class="matrix-cell" x-text="c"></div>
+                                  <div class="matrix-cell" style="width: 50px; height: 50px; border-radius: 8px;" x-text="c"></div>
                                 </template>
                               </div>
                             </template>
@@ -217,7 +237,6 @@
                         </div>
                       </template>
 
-                      <!-- Visual Sarrus extendido para 4x4 -->
                       <template x-if="item.sarrusHtml">
                         <div class="w-full mt-1">
                           <div x-html="item.sarrusHtml"></div>
@@ -240,7 +259,7 @@
                 <template x-for="row in steps[currentStep].matrixFormatted">
                   <div class="matrix-row">
                     <template x-for="cell in row">
-                      <div class="matrix-cell" x-text="cell"></div>
+                      <div class="matrix-cell" style="width: 70px; height: 50px;" x-text="cell"></div>
                     </template>
                   </div>
                 </template>
@@ -248,7 +267,6 @@
             </div>
           </template>
 
-          <!-- ===== PASO 3: ADJUNTA ===== -->
           <template x-if="steps[currentStep]?.type === 'adjoint'">
             <div class="step-item">
               <p x-text="steps[currentStep].explanation"></p>
@@ -260,7 +278,7 @@
                     <template x-for="row in steps[currentStep].original">
                       <div class="matrix-row">
                         <template x-for="cell in row">
-                          <div class="matrix-cell" x-text="cell"></div>
+                          <div class="matrix-cell" style="width: 70px; height: 50px;" x-text="cell"></div>
                         </template>
                       </div>
                     </template>
@@ -277,6 +295,7 @@
                         <template x-for="cell in row">
                           <div
                             class="matrix-cell border-green-500"
+                            style="width: 70px; height: 50px;"
                             x-text="cell"
                           ></div>
                         </template>
@@ -288,7 +307,6 @@
             </div>
           </template>
 
-          <!-- ===== PASO 4: INVERSA ===== -->
           <template x-if="steps[currentStep]?.type === 'inverse'">
             <div class="step-item">
               <template x-if="steps[currentStep].specialCase">
@@ -313,7 +331,6 @@
             </div>
           </template>
 
-          <!-- ===== PASO 5: VERIFICACIÓN ===== -->
           <template x-if="steps[currentStep]?.type === 'verification'">
             <div class="step-item">
               <p
@@ -378,7 +395,7 @@
           class="mt-4"
           x-show="steps.length > 0 && currentStep === steps.length - 1 && steps[currentStep].type === 'inverse'"
         >
-          <button class="hero-button" @click="verify()">
+          <button class="hero-button" @click="verify(); setTimeout(() => { document.getElementById('steps-start').scrollIntoView({behavior: 'smooth', block: 'start'}) }, 100)">
             Verificar resultado (A · A⁻¹)
           </button>
         </div>

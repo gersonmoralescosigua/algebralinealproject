@@ -5,9 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ayuda y Tutoriales | LinearAI</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="../assets/css/styles.css">
+  
+  <style>
+    .tutorial-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .tutorial-h3 {
+      font-size: 1.8rem;
+      color: white;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .tutorial-h4 {
+      font-size: 1.25rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin: 2rem 0 1rem 0;
+    }
+    .tutorial-p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+    }
+    .math-formula {
+      background: #0f0f11;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: 'Courier New', Courier, monospace;
+      color: #E4E4E7;
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    /* Tabs */
+    .tab-btn {
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.3s ease;
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+    .tab-btn:hover { background: var(--panel-2); color: white; }
+    .tab-btn.active {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--accent);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+  </style>
 </head>
-<body>
+<body x-data="{ tab: 'determinantes' }">
 
 <div class="app-layout">
   <aside class="sidebar">
@@ -15,17 +75,17 @@
       <div class="logo-area">
         <div class="logo-box">∑</div>
         <div>
-          <h1>LinearAI</h1>
-          <p>Workspace</p>
+          <h1>Calculadora</h1>
+          <p>Tutoriales</p>
         </div>
       </div>
 
       <nav class="sidebar-nav">
-        <a href="../index.html" class="nav-item"><span>⌂</span> Dashboard</a>
+        <a href="../index.html" class="nav-item"><span>⌂</span> Inicio</a>
         <a href="./determinants.html" class="nav-item"><span>Δ</span> Determinantes</a>
         <a href="./inverse.html" class="nav-item"><span>A⁻¹</span> Matriz Inversa</a>
         <a href="./cramer.html" class="nav-item"><span>x</span> Regla de Cramer</a>
-        <a href="./help.html" class="nav-item active-nav"><span>?</span> Ayuda</a>
+        <a href="./help.html" class="nav-item active-nav"><span>?</span> Aprendizaje</a>
       </nav>
     </div>
   </aside>
@@ -33,34 +93,214 @@
   <main class="main-content">
     <div class="topbar">
       <div>
-        <h2>Centro de Ayuda</h2>
-        <p>Tutoriales y teoría matemática</p>
+        <h2>Centro de Aprendizaje</h2>
+        <p>Domina el álgebra lineal paso a paso.</p>
       </div>
     </div>
 
-    <div class="panel" style="max-width: 800px; margin: 0 auto; padding: 3rem;">
-      <h3 style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;">¿Cómo se calculan las determinantes?</h3>
-      <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
-        El cálculo de determinantes es fundamental en el álgebra lineal para encontrar la matriz inversa o resolver sistemas de ecuaciones mediante la Regla de Cramer.
-      </p>
+    <div class="flex gap-4 mb-8 overflow-x-auto pb-2">
+      <button class="tab-btn" :class="tab === 'determinantes' ? 'active' : ''" @click="tab = 'determinantes'">
+        Δ Determinantes
+      </button>
+      <button class="tab-btn" :class="tab === 'inversa' ? 'active' : ''" @click="tab = 'inversa'">
+        A⁻¹ Matriz Inversa
+      </button>
+      <button class="tab-btn" :class="tab === 'cramer' ? 'active' : ''" @click="tab = 'cramer'">
+        x Regla de Cramer
+      </button>
+    </div>
 
-      <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: white;">Método de Sarrus (3x3)</h4>
-      <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
-        La regla de Sarrus es un método fácil de memorizar para calcular el determinante de una matriz de 3×3. Consiste en duplicar las dos primeras columnas hacia la derecha y multiplicar las diagonales principales (positivas) menos las diagonales secundarias (negativas).
-      </p>
-
-      <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: white;">Expansión por Cofactores</h4>
-      <p style="color: var(--muted); margin-bottom: 2rem; line-height: 1.8;">
-        Para matrices más grandes (como 4x4), utilizamos el teorema de Laplace o expansión por cofactores. Lo ideal es elegir la fila o columna que contenga la mayor cantidad de ceros para simplificar el proceso aritmético.
-      </p>
-
-      <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); padding: 1.5rem; border-radius: 14px; margin-top: 3rem;">
-        <h4 style="color: var(--accent); margin-bottom: 0.5rem;">Consejo Rápido</h4>
-        <p style="color: var(--text);">
-          Recuerda las propiedades de las matrices: si una matriz tiene una fila o columna completa de ceros, o dos filas proporcionales, ¡su determinante siempre será 0!
+    <div x-show="tab === 'determinantes'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+      
+      <div class="tutorial-card">
+        <h3 class="tutorial-h3"><span class="text-3xl text-green-500">Δ </span> Regla de Sarrus. Solo para 3x3.</h3>
+        <p class="tutorial-p">
+          El método de Sarrus es una forma visual y directa de calcular el determinante exclusivo de matrices de 3x3. Consiste en escribir las tres columnas de la matriz y luego <b>repetir las dos primeras columnas</b> a la derecha.         </p>
+        
+        <h4 class="tutorial-h4">Visualización del método</h4>
+        <div class="bg-black/30 p-6 rounded-2xl border border-white/5 flex flex-col items-center">
+          <div class="text-sm text-gray-500 mb-4">Columnas originales &nbsp;|&nbsp; <em class="opacity-60">Columnas copiadas →</em></div>
+          
+          <div class="flex flex-col gap-2 relative">
+            <div class="flex gap-2">
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-green-500/40 bg-green-500/20 text-white font-bold">a₁₁</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-green-500/40 bg-green-500/20 text-white font-bold">a₁₂</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-yellow-500/40 bg-yellow-500/20 text-white font-bold">a₁₃</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-red-500/40 bg-red-500/20 text-white font-bold opacity-70 italic">a₁₁</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-red-500/40 bg-red-500/20 text-white font-bold opacity-70 italic">a₁₂</div>
+            </div>
+            <div class="flex gap-2">
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-red-500/40 bg-red-500/20 text-white font-bold">a₂₁</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-yellow-500/40 bg-yellow-500/20 text-white font-bold">a₂₂</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-yellow-500/40 bg-yellow-500/20 text-white font-bold">a₂₃</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-yellow-500/40 bg-yellow-500/20 text-white font-bold opacity-70 italic">a₂₁</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white font-bold opacity-70 italic">a₂₂</div>
+            </div>
+            <div class="flex gap-2">
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white font-bold">a₃₁</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-red-500/40 bg-red-500/20 text-white font-bold">a₃₂</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-yellow-500/40 bg-yellow-500/20 text-white font-bold">a₃₃</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-green-500/40 bg-green-500/20 text-white font-bold opacity-70 italic">a₃₁</div>
+              <div class="w-12 h-12 flex items-center justify-center rounded-lg border border-green-500/40 bg-green-500/20 text-white font-bold opacity-70 italic">a₃₂</div>
+            </div>
+            <div class="absolute top-0 bottom-0 left-[162px] w-px border-r border-dashed border-white/20"></div>
+          </div>
+          
+          <div class="flex gap-6 mt-6 text-sm">
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-green-500/30"></div><span class="text-green-300">Diagonales Positivas +</span></div>
+            <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-sm bg-red-500/30"></div><span class="text-red-300">Diagonales Negativas −</span></div>
+          </div>
+        </div>
+        
+        <p class="tutorial-p mt-4">
+          Sumamos el producto de las tres diagonales principales verdes y le restamos el producto de las tres diagonales secundarias rojas.
         </p>
       </div>
+
+      <div class="tutorial-card">
+        <h3 class="tutorial-h3"><span class="text-3xl text-green-500">2.</span> Expansión por Cofactores. Para cualquier tamaño de matriz.</h3>
+        <p class="tutorial-p">
+          Para matrices de 4x4 o mayores, Sarrus ya no funciona. Aquí utilizamos la expansión por cofactores. La lógica es elegir una fila o columna, preferiblemente la que tenga más ceros, y multiplicar cada elemento por su <b>menor</b> y su <b>signo de posición</b>.         </p>
+
+        <h4 class="tutorial-h4">La matriz de signos</h4>
+        <p class="tutorial-p">Cada posición en la matriz tiene un signo asignado por la fórmula <span class="text-green-400 font-mono">(-1)<sup>i+j</sup></span>. Visualmente, se ve como un tablero de ajedrez:</p>
+        
+        <div class="flex justify-center mb-6">
+          <div class="grid grid-cols-4 gap-1 p-2 bg-[#0f0f11] border border-white/5 rounded-xl">
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+            
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+            
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-red-400 bg-red-500/10 rounded-md">−</div>
+            <div class="w-12 h-12 flex items-center justify-center font-bold text-xl text-green-400 bg-green-500/10 rounded-md">+</div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl">
+          <p class="text-blue-300 font-medium"><b>Tip:</b> En nuestras calculadoras, el algoritmo evalúa inteligentemente qué fila o columna tiene más ceros para ahorrarte la extracción de menores, ya que <span class="font-mono">0 × cualquier cosa = 0</span>.</p>
+        </div>
+      </div>
     </div>
+
+    <div x-show="tab === 'inversa'" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+      
+      <div class="tutorial-card">
+        <h3 class="tutorial-h3"><span class="text-3xl text-green-500">A⁻¹</span>¿Cuándo existe una matriz inversa?</h3>
+        <p class="tutorial-p">
+          La matriz inversa A⁻¹ es aquella que al multiplicarse por su matriz original A da como resultado la matriz identidad I. <b>Condición indispensable:</b> El determinante de la matriz debe ser distinto de cero (det(A) ≠ 0). Si es 0, la matriz es <i>singular</i> y no tiene inversa.
+        </p>
+
+        <h4 class="tutorial-h4">Los 4 Pasos del Método de la Adjunta</h4>
+        
+        <div class="space-y-4">
+          <div class="p-5 bg-[#0f0f11] border border-white/5 rounded-xl border-l-4 border-l-green-500">
+            <h5 class="text-white font-bold text-lg mb-2">1. Calcular el determinante</h5>
+            <p class="text-gray-400">Usando Sarrus si es 3x3 o cofactores si es 4x4 o mayor. Si da 0, el ejercicio termina aquí.</p>
+          </div>
+          
+          <div class="p-5 bg-[#0f0f11] border border-white/5 rounded-xl border-l-4 border-l-green-500">
+            <h5 class="text-white font-bold text-lg mb-2">2. Matriz de Cofactores</h5>
+            <p class="text-gray-400">Reemplazamos cada elemento de la matriz por el determinante de su submatriz menor, aplicándole la ley de signos + - + -. Para una matriz 4x4, esto implica calcular <b>16 determinantes de 3x3</b> Afortunadamente, para los de 3x3 puedes usar Sarrus.</p>
+          </div>
+
+          <div class="p-5 bg-[#0f0f11] border border-white/5 rounded-xl border-l-4 border-l-green-500">
+            <h5 class="text-white font-bold text-lg mb-2">3. La Adjunta o transpuesta</h5>
+            <p class="text-gray-400">Tomamos la matriz de cofactores que obtuvimos en el paso 2 y la transponemos. Es decir, las filas se convierten en columnas y las columnas en filas.</p>
+          </div>
+
+          <div class="p-5 bg-[#0f0f11] border border-white/5 rounded-xl border-l-4 border-l-green-500">
+            <h5 class="text-white font-bold text-lg mb-2">4. Multiplicación final</h5>
+            <p class="text-gray-400">Aplicamos la fórmula general multiplicando cada elemento de la Matriz Adjunta por la fracción <span class="font-mono text-green-400">1 / det(A)</span>.</p>
+            <div class="math-formula mt-4">
+              A⁻¹ = 1 / det(A) × Adj(A)
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div x-show="tab === 'cramer'" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+      
+      <div class="tutorial-card">
+        <h3 class="tutorial-h3"><span class="text-3xl text-green-500">X</span> Resolviendo sistemas con Cramer</h3>
+        <p class="tutorial-p">
+          La Regla de Cramer es un teorema que permite resolver sistemas de ecuaciones lineales usando pura determinantes. Es ideal cuando el número de ecuaciones es igual al número de incógnitas.         </p>
+
+        <h4 class="tutorial-h4">El Procedimiento</h4>
+        <ol class="list-decimal list-inside space-y-3 text-gray-300 ml-2 mb-8">
+          <li>Extremos los coeficientes de las variables para formar la <b>Matriz A</b>.</li>
+          <li>Extraemos los resultados de las ecuaciones para formar el <b>Vector B</b>.</li>
+          <li>Calculamos el <b>determinante principal</b> de la Matriz A.</li>
+        </ol>
+
+        <h4 class="tutorial-h4">Sustitución de Columnas</h4>
+        <p class="tutorial-p">Para encontrar el valor de cada incógnita x, y, z..., tomamos la Matriz A, pero reemplazamos la columna de esa variable por el Vector B.</p>
+        
+        <div class="flex flex-wrap gap-8 justify-center mb-6">
+          <div class="text-center">
+            <p class="text-sm text-gray-500 mb-2">Matriz Original A</p>
+            <table class="border-collapse bg-[#1F1F23] rounded-xl overflow-hidden mx-auto">
+              <tr>
+                <td class="p-3 border border-white/10 text-white font-bold">2</td>
+                <td class="p-3 border border-white/10 text-white font-bold">1</td>
+                <td class="p-3 border border-white/10 text-white font-bold">1</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/10 text-white font-bold">3</td>
+                <td class="p-3 border border-white/10 text-white font-bold">-2</td>
+                <td class="p-3 border border-white/10 text-white font-bold">-3</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/10 text-white font-bold">8</td>
+                <td class="p-3 border border-white/10 text-white font-bold">2</td>
+                <td class="p-3 border border-white/10 text-white font-bold">5</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="flex items-center text-3xl text-gray-600">→</div>
+
+          <div class="text-center">
+            <p class="text-sm text-gray-500 mb-2">Para hallar A<sub>y</sub></p>
+            <table class="border-collapse bg-[#1F1F23] rounded-xl overflow-hidden mx-auto">
+              <tr>
+                <td class="p-3 border border-white/10 text-white font-bold">2</td>
+                <td class="p-3 border border-green-500/50 bg-green-500/20 text-green-400 font-extrabold shadow-[inset_0_0_10px_rgba(34,197,94,0.2)]">6</td>
+                <td class="p-3 border border-white/10 text-white font-bold">1</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/10 text-white font-bold">3</td>
+                <td class="p-3 border border-green-500/50 bg-green-500/20 text-green-400 font-extrabold shadow-[inset_0_0_10px_rgba(34,197,94,0.2)]">5</td>
+                <td class="p-3 border border-white/10 text-white font-bold">-3</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/10 text-white font-bold">8</td>
+                <td class="p-3 border border-green-500/50 bg-green-500/20 text-green-400 font-extrabold shadow-[inset_0_0_10px_rgba(34,197,94,0.2)]">11</td>
+                <td class="p-3 border border-white/10 text-white font-bold">5</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <p class="tutorial-p text-center mt-6">Finalmente, dividimos: <br> <span class="text-xl font-bold text-green-400">y = det(A<sub>y</sub>) / det(A)</span></p>
+
+      </div>
+    </div>
+
   </main>
 </div>
 

@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Determinantes | LinearAI</title>
+    <title>Determinantes | Calculadora</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link rel="stylesheet" href="../assets/css/determinants.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
   </head>
 
 <body>
@@ -18,17 +19,17 @@
       <div class="logo-area">
         <div class="logo-box">∑</div>
           <div>
-            <h1>LinearAI</h1>
-            <p>Workspace</p>
+            <h1>Calculadora</h1>
+            <p>Determinantes</p>
           </div>
       </div>
 
       <nav class="sidebar-nav">
-            <a href="../index.html" class="nav-item"><span>⌂</span> Dashboard</a>
+            <a href="../index.html" class="nav-item"><span>⌂</span> Inicio</a>
             <a href="./determinants.html" class="nav-item active-nav"><span>Δ</span> Determinantes</a>
             <a href="./inverse.html" class="nav-item"><span>A⁻¹</span> Matriz Inversa</a>
             <a href="./cramer.html" class="nav-item"><span>x</span> Regla de Cramer</a>
-            <a href="./help.html" class="nav-item"><span>?</span> Ayuda</a>
+            <a href="./help.html" class="nav-item"><span>?</span> Aprendizaje</a>
       </nav>
     </div>
   </aside>
@@ -42,12 +43,12 @@
       </div>
     </div>
 
-    <div class="workspace-grid">
+    <div style="max-width: 850px; margin: 0 auto; width: 100%;">
 
       <div class="matrix-workspace">
 
         <div class="panel">
-          <div class="controls">
+          <div class="controls" style="justify-content: center;">
 
             <select x-model.number="size">
               <option value="2">2x2</option>
@@ -56,16 +57,15 @@
             </select>
 
             <select x-model="method">
-              <option value="auto">Automático</option>
               <option value="sarrus" x-show="size === 3">Sarrus</option>
-              <option value="cofactor">Cofactores</option>
+              <option value="auto">Cofactores</option>
             </select>
 
             <button @click="generateMatrix()">
-              Limpiar / Generar
+              Limpiar
             </button>
 
-            <button @click="calculate()">
+            <button @click="calculate(); $nextTick(() => { document.getElementById('steps-start').scrollIntoView({behavior: 'smooth', block: 'start'}) })">
               Calcular
             </button>
 
@@ -82,7 +82,7 @@
                     
                     <div 
                       class="matrix-cell"
-                      :class="getCellClass(i, visualJ, [])"
+                      :class="getCellClass(i, visualJ, []) + ' size-' + size + '-cell'"
                       :style="getInlineStyle(i, visualJ)"
                     >
                       <input 
@@ -106,27 +106,16 @@
 
       </div>
 
-      <div class="steps-workspace">
-        <div class="step-topbar">
-          <h3>Detalles del Cálculo</h3>
-        </div>
-
-        <div class="step-card">
-          <p x-show="!calculatedMethod">
-            Ingresa los valores de la matriz y haz clic en "Calcular" para desplegar el procedimiento paso a paso hacia abajo.
-          </p>
-          <div x-show="calculatedMethod">
-            <h4 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem;">
-              Método: <span style="text-transform: capitalize;" x-text="calculatedMethod === 'sarrus' ? 'Regla de Sarrus' : 'Expansión por Cofactores'"></span>
-            </h4>
-            <p>El desglose completo de la operación se ha generado en la parte inferior. Desplázate hacia abajo para estudiarlo en orden secuencial.</p>
-          </div>
-        </div>
+      <div x-show="calculatedMethod" style="margin-top: 2rem; text-align: center; padding: 1.5rem; background: var(--panel); border: 1px solid var(--border); border-radius: 20px; animation: fadeIn 0.4s ease;">
+        <h4 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1.2rem;">
+          Resuelto por <span style="text-transform: capitalize;" x-text="calculatedMethod === 'sarrus' ? 'regla de sarrus' : 'expansión por cofactores'"></span>
+        </h4>
+        <p style="color: var(--muted);">Desplázate hacia abajo para estudiarlo en orden secuencial.</p>
       </div>
 
     </div>
 
-    <hr class="step-section-divider" x-show="steps.length > 0">
+    <hr id="steps-start" class="step-section-divider" x-show="steps.length > 0">
 
     <div class="detailed-steps-list" x-show="steps.length > 0">
       
@@ -168,9 +157,10 @@
       </template>
 
       <div class="result-card" x-show="result !== null">
-        <span>Resultado Final</span>
+        <span>Resultado final</span>
         <h2 x-text="'det(A) = ' + result"></h2>
       </div>
+
     </div>
 
   </main>
