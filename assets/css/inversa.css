@@ -19,8 +19,7 @@
   background: var(--panel-2); 
   border: 1px solid var(--border); 
   padding: 0.9rem 1.4rem; 
-  border-radius: 14px; 
-  color: white; 
+  border-radius: 14px;
   font-size: 1.1rem; 
   font-weight: 600;
   cursor: pointer;
@@ -29,7 +28,6 @@
 
 .controls select:hover, 
 .controls button:hover {
-  background: rgba(255, 255, 255, 0.05);
   border-color: var(--accent);
 }
 
