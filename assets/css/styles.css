@@ -35,7 +35,7 @@ body {
 
 .sidebar { 
   width: 260px;
-  backdrop-filter: blur(  2px);
+  backdrop-filter: blur(  8px);
   border-right: 1px solid var(--border); 
   padding: 1.5rem; 
   display: flex; 
